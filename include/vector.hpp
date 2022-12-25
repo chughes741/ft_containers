@@ -12,176 +12,215 @@ namespace ft {
 template <class MyVector>
 class VectorConstIterator : public _Iterator_base {
  public:
-  using iterator_category = random_access_iterator_tag;
-  using value_type        = typename MyVector::value_type;
-  using difference_type   = typename MyVector::difference_type;
-  using pointer           = typename MyVector::const_pointer;
-  using reference         = const value_type&;
-
-  using Ptr = typename MyVector::pointer;
-
   VectorConstIterator();
-  VectorConstIterator(Ptr p_arg_, const _Container_base* p_vector_);
-  reference            operator*() const;
-  pointer              operator->() const;
-  VectorConstIterator& operator++();
-  VectorConstIterator  operator++(int);
-  VectorConstIterator& operator--();
-  VectorConstIterator  operator--(int);
-  VectorConstIterator& operator+=(const difference_type offset_);
-  VectorConstIterator  operator+(const difference_type offset_) const;
-  VectorConstIterator  operator+(const difference_type offset_,
-                                VectorConstIterator   next_);
-  VectorConstIterator& operator-=(const difference_type offset_);
-  VectorConstIterator  operator-(const difference_type offset_) const;
-  difference_type      operator-(const VectorConstIterator& rhs) const;
-  reference            operator[](const difference_type offset_) const;
-  bool                 operator==(const VectorConstIterator& rhs) const;
-  bool                 operator!=(const VectorConstIterator& rhs) const;
-  bool                 operator<(const VectorConstIterator& rhs) const;
-  bool                 operator>(const VectorConstIterator& rhs) const;
-  bool                 operator<=(const VectorConstIterator& rhs) const;
-  bool                 operator>=(const VectorConstIterator& rhs) const;
+  VectorConstIterator(MyVector::pointer      p_arg_,
+                      const _Container_base* p_vector_);
+  MyVector::value_type&   operator*() const;
+  MyVector::const_pointer operator->() const;
+  VectorConstIterator&    operator++();
+  VectorConstIterator     operator++(int);
+  VectorConstIterator&    operator--();
+  VectorConstIterator     operator--(int);
+  VectorConstIterator&    operator+=(const MyVector::difference_type offset_);
+  VectorConstIterator  operator+(const MyVector::difference_type offset_) const;
+  VectorConstIterator  operator+(const MyVector::difference_type offset_,
+                                VectorConstIterator             next_);
+  VectorConstIterator& operator-=(const MyVector::difference_type offset_);
+  VectorConstIterator  operator-(const MyVector::difference_type offset_) const;
+  MyVector::difference_type operator-(const VectorConstIterator& rhs) const;
+  MyVector::value_type&     operator[](
+      const MyVector::difference_type offset_) const;
+  bool operator==(const VectorConstIterator& rhs) const;
+  bool operator!=(const VectorConstIterator& rhs) const;
+  bool operator<(const VectorConstIterator& rhs) const;
+  bool operator>(const VectorConstIterator& rhs) const;
+  bool operator<=(const VectorConstIterator& rhs) const;
+  bool operator>=(const VectorConstIterator& rhs) const;
 
-  Ptr ptr_;
+  MyVector::pointer ptr_;
 };
 
 template <class MyVector>
 class VectorIterator : public VectorConstIterator<MyVector> {
  public:
-  using _Mybase           = VectorConstIterator<MyVector>;
-  using iterator_category = random_access_iterator_tag;
-  using value_type        = typename MyVector::value_type;
-  using difference_type   = typename MyVector::difference_type;
-  using pointer           = typename MyVector::pointer;
-  using reference         = value_type&;
-  using _Mybase::_Mybase;
-
-  reference       operator*() const;
-  pointer         operator->() const;
-  VectorIterator& operator++();
-  VectorIterator  operator++(int);
-  VectorIterator& operator--();
-  VectorIterator  operator--(int);
-  VectorIterator& operator+=(const difference_type offset_);
-  VectorIterator  operator+(const difference_type offset_) const;
-  VectorIterator operator+(const difference_type offset_, VectorIterator next_);
-  VectorIterator& operator-=(const difference_type offset_);
-  VectorIterator  operator-(const difference_type offset_) const;
-  VectorIterator operator-(const difference_type offset_, VectorIterator next_);
-  VectorIterator operator-(const difference_type offset_) const;
-  reference      operator[](const difference_type offset_) const;
-};
-
-template <class ValueType, class SizeType, class DifferenceType, class Pointer,
-          class ConstPointer, class Reference, class ConstReference>
-struct VectorIteratorTypes {
-  using value_type      = ValueType;
-  using size_type       = SizeType;
-  using difference_type = DifferenceType;
-  using pointer         = Pointer;
-  using const_pointer   = ConstPointer;
+  MyVector::value_type& operator*() const;
+  MyVector::pointer     operator->() const;
+  VectorIterator&       operator++();
+  VectorIterator        operator++(int);
+  VectorIterator&       operator--();
+  VectorIterator        operator--(int);
+  VectorIterator&       operator+=(const MyVector::difference_type offset_);
+  VectorIterator  operator+(const MyVector::difference_type offset_) const;
+  VectorIterator  operator+(const MyVector::difference_type offset_,
+                           VectorIterator                  next_);
+  VectorIterator& operator-=(const MyVector::difference_type offset_);
+  VectorIterator  operator-(const MyVector::difference_type offset_) const;
+  VectorIterator  operator-(const MyVector::difference_type offset_,
+                           VectorIterator                  next_);
+  VectorIterator  operator-(const MyVector::difference_type offset_) const;
+  MyVector::value_type& operator[](
+      const MyVector::difference_type offset_) const;
 };
 
 template <class ValueTypes>
 class VectorValue : public _Container_base {
  public:
-  using value_type      = typename ValueTypes::value_type;
-  using size_type       = typename ValueTypes::size_type;
-  using difference_type = typename ValueTypes::difference_type;
-  using pointer         = typename ValueTypes::pointer;
-  using const_pointer   = typename ValueTypes::const_pointer;
-  using reference       = value_type&;
-  using const_reference = const value_type&;
-
   VectorValue();
-  VectorValue(pointer first_, pointer last_, pointer end_);
+  VectorValue(ValueTypes::pointer first_, ValueTypes::pointer last_,
+              ValueTypes::pointer end_);
   void SwapValue(VectorValue& rhs);
   void TakeContents(VectorValue& rhs);
 
-  pointer my_first_;
-  pointer my_last_;
-  pointer my_end_;
+  ValueTypes::pointer my_first_;
+  ValueTypes::pointer my_last_;
+  ValueTypes::pointer my_end_;
 };
 
 template <class T, class Allocator = std::allocator<T>>
 class vector {
  public:
-  using value_type      = T;
-  using allocator_type  = Allocator;
-  using pointer         = typename Allocator::pointer;
-  using const_pointer   = typename Allocator::const_pointer;
-  using reference       = value_type&;
-  using const_reference = const value_type&;
-  using size_type       = typename std::size_t;
-  using difference_type = typename std::ptrdiff_t;
-
-  using iterator               = VectorIterator<T>;
-  using const_iterator         = VectorConstIterator<T>;
-  using reverse_iterator       = std::reverse_iterator<iterator>;
-  using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-
+  /* Member functions */
+  // Default constructor
   vector();
-  explicit vector(const Allocator& alloc_);
-  explicit vector(size_type count_, const T& value_ = T(),
+
+  // Default constructor overload with different allocator
+  explicit vector(const Allocator& alloc_);  // TODO check if needed
+
+  // Default constructor overload with init size and init value
+  explicit vector(std::size_t count_, const T& value_ = T(),
                   const Allocator& alloc_ = Allocator());
+
+  // Default range constructor template
   template <class InputIt>
   vector(InputIt first_, InputIt last_, const Allocator& alloc_ = Allocator());
+
+  // Default copy constructor
   vector(const vector& other_);
+
+  // Copy assignment operator overload
   vector& operator=(const vector& right_);
+
+  // Default destructor
   ~vector();
 
-  void     push_back(const T& value_);
-  iterator insert(const_iterator pos_, const T& value_);
-  iterator insert(const_iterator pos_, size_type count_, const T& value_);
-  template <class _Iter>
-  iterator insert(const_iterator pos_, _Iter first_, _Iter last_);
-  void     assign(size_type count_, const T& value_);
-  template <class _Iter, enable_if_t<_Is_iterator_v<_Iter>, int> = 0>
-  void            assign(_Iter first_, _Iter last_);
-  void            resize(size_type count_);
-  void            resize(size_type count_, T value_ = T());
-  void            reserve(size_type new_cap_);
-  void            pop_back();
-  iterator        erase(iterator pos_);
-  iterator        erase(iterator first_, iterator last_);
-  void            clear();
-  void            swap(vector& other);
-  T*              data();
-  const T*        data() const;
-  bool            empty() const;
-  size_type       size() const;
-  size_type       max_size() const;
-  size_type       capacity() const;
-  reference       operator[](size_type pos_);
-  const_reference operator[](size_type pos_) const;
-  reference       at(size_type pos_);
-  const_reference at(size_type pos_) const;
-  reference       front();
-  const_reference front() const;
-  reference       back();
-  const_reference back() const;
-  allocator_type  get_allocator() const;
+  // Replaces contents with count copy of value
+  void assign(std::size_t count_, const T& value_);
+
+  // Replaces elements with copies of those in [first, last)
+  void assign(_Iter first_, _Iter last_);
+
+  // Returns allocator associated with the container
+  Allocator get_allocator() const;
+
+  /* Element access */
+  // Returns a T& to the element at pos_, with bound checks
+  T& at(std::size_t pos_);
+
+  // Returns a const T& to the element at pos_, with bound checks
+  const T& at(std::size_t pos_) const;
+
+  // Returns a T& to the element at pos_, no bound checks
+  T& operator[](std::size_t pos_);
+
+  // Returns a cont_reference to the element at pos_, no bound checks
+  const T& operator[](std::size_t pos_) const;
+
+  // Returns a T& to the first element in the container
+  T& front();
+
+  // Returns a const T& to the first element in the container
+  const T& front() const;
+
+  // Returns a T& to the last element in the container
+  T& back();
+
+  // Returns a const T& to the last element in the container
+  const T& back() const;
+
+  // Returns a Allocator::pointer to the underlying array serving as element
+  // storage
+  T* data();
+
+  // Returns a Allocator::const_pointer to the underlying array serving as
+  // element storage
+  const T* data() const;
+
+  /* Capacity */
+  // Checks if the container is empty
+  bool empty() const;
+
+  // Returns the number of elements in the container
+  std::size_t size() const;
+
+  // Returns the maximum number of elements of the container, sys dependant
+  std::size_t max_size() const;
+
+  // Increases the capacity of the vector, will not shrink it
+  void reserve(std::size_t new_cap_);
+
+  // Returns the number of elements the container can currently hold
+  std::size_t capacity() const;
+
+  /* Modifiers */
+  // Clears the contents of the container
+  void clear();
+
+  // Inserts value_ before pos_
+  VectorIterator<T> insert(VectorConstIterator<T> pos_, const T& value_);
+
+  // Inserts count_ copy of value_ before pos_
+  VectorIterator<T> insert(VectorConstIterator<T> pos_, std::size_t count_,
+                           const T& value_);
+
+  // Inserts [first_, last_) before pos_
+  template <class InputIt>
+  VectorIterator<T> insert(VectorConstIterator<T> pos_, InputIt first_,
+                           InputIt last_);
+
+  // Erases the element at pos_
+  VectorIterator<T> erase(VectorIterator<T> pos_);
+
+  // Erases the elements in [first_, last_)
+  VectorIterator<T> erase(VectorIterator<T> first_, VectorIterator<T> last_);
+
+  // Adds element to end of the vector
+  void push_back(const T& value_);
+
+  // Removes element from the end of the vector
+  void pop_back();
+
+  // Changes the number of elements stored
+  void resize(std::size_t count_, T value_ = T());
+
+  // Swaps the contents of two vectors
+  void swap(vector& other);
 };
 
+// equal to overload for vector
 template <class T, class Alloc>
 bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
 
+// not equal to overload for vector
 template <class T, class Alloc>
 bool operator!=(const vector<T, Alloc>& lsh, const vector<T, Alloc>& rsh);
 
+// less than overload for vector
 template <class T, class Alloc>
 bool operator<(const vector<T, Alloc>& lsh, const vector<T, Alloc>& rhs);
 
-template <class T, class Alloc>
-bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
-
+// greater than overload for vector
 template <class T, class Alloc>
 bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
 
+// less than or equal to overload for vector
+template <class T, class Alloc>
+bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+
+// greater than or equal to overload for vector
 template <class T, class Alloc>
 bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
 
+// Uses the std::swap algorithm to swap two vectors
 template <class T, class Alloc>
 void swap(vector<T, Alloc>& lhs, vector<T, Alloc>& rhs);
 
