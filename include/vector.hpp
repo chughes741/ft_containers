@@ -7,10 +7,12 @@
 #include <iterator>
 #include <memory>
 
+#define ft_noexcept throw()
+
 namespace ft {
 
 template <class MyVector>
-class VectorConstIterator : public _Iterator_base {
+class VectorConstIterator {
  public:
   VectorConstIterator();
   VectorConstIterator(MyVector::pointer      p_arg_,
@@ -63,7 +65,7 @@ class VectorIterator : public VectorConstIterator<MyVector> {
 };
 
 template <class ValueTypes>
-class VectorValue : public _Container_base {
+class VectorValue {
  public:
   VectorValue();
   VectorValue(ValueTypes::pointer first_, ValueTypes::pointer last_,
@@ -79,15 +81,30 @@ class VectorValue : public _Container_base {
 template <class T, class Allocator = std::allocator<T>>
 class vector {
  public:
+  typedef Allocator allocator_type;
+
+  typedef T                                        value_type;
+  typedef typename allocator_type::pointer         pointer;
+  typedef typename allocator_type::const_pointer   const_pointer;
+  typedef typename allocator_type::reference       reference;
+  typedef typename allocator_type::const_reference const_reference;
+  typedef typename allocator_type::size_type       size_type;
+  typedef typename allocator_type::difference_type difference_type;
+
+  typedef VectorIterator<T>                     iterator;
+  typedef VectorConstIterator<T>                const_iterator;
+  typedef std::reverse_iterator<iterator>       reverse_iterator;
+  typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+
   /* Member functions */
   // Default constructor
-  vector();
+  vector() ft_noexcept;
 
   // Default constructor overload with different allocator
-  explicit vector(const Allocator& alloc_);  // TODO check if needed
+  explicit vector(const Allocator& alloc_) ft_noexcept;
 
   // Default constructor overload with init size and init value
-  explicit vector(std::size_t count_, const T& value_ = T(),
+  explicit vector(size_type count_, const value_type& value_ = value_type(),
                   const Allocator& alloc_ = Allocator());
 
   // Default range constructor template
@@ -104,93 +121,92 @@ class vector {
   ~vector();
 
   // Replaces contents with count copy of value
-  void assign(std::size_t count_, const T& value_);
+  void assign(size_type count_, const value_type& value_);
 
   // Replaces elements with copies of those in [first, last)
   void assign(_Iter first_, _Iter last_);
 
   // Returns allocator associated with the container
-  Allocator get_allocator() const;
+  allocator_type get_allocator() const ft_noexcept;
 
   /* Element access */
   // Returns a T& to the element at pos_, with bound checks
-  T& at(std::size_t pos_);
+  value_type& at(size_type pos_);
 
   // Returns a const T& to the element at pos_, with bound checks
-  const T& at(std::size_t pos_) const;
+  const value_type& at(size_type pos_) const;
 
   // Returns a T& to the element at pos_, no bound checks
-  T& operator[](std::size_t pos_);
+  value_type& operator[](size_type pos_);
 
   // Returns a cont_reference to the element at pos_, no bound checks
-  const T& operator[](std::size_t pos_) const;
+  const value_type& operator[](size_type pos_) const;
 
   // Returns a T& to the first element in the container
-  T& front();
+  value_type& front();
 
   // Returns a const T& to the first element in the container
-  const T& front() const;
+  const value_type& front() const;
 
   // Returns a T& to the last element in the container
-  T& back();
+  value_type& back();
 
   // Returns a const T& to the last element in the container
-  const T& back() const;
+  const value_type& back() const;
 
   // Returns a Allocator::pointer to the underlying array serving as element
   // storage
-  T* data();
+  value_type* data() ft_noexcept;
 
   // Returns a Allocator::const_pointer to the underlying array serving as
   // element storage
-  const T* data() const;
+  const value_type* data() const ft_noexcept;
 
   /* Capacity */
   // Checks if the container is empty
-  bool empty() const;
+  bool empty() const ft_noexcept;
 
   // Returns the number of elements in the container
-  std::size_t size() const;
+  size_type size() const ft_noexcept;
 
   // Returns the maximum number of elements of the container, sys dependant
-  std::size_t max_size() const;
+  size_type max_size() const ft_noexcept;
 
   // Increases the capacity of the vector, will not shrink it
-  void reserve(std::size_t new_cap_);
+  void reserve(size_type new_cap_);
 
   // Returns the number of elements the container can currently hold
-  std::size_t capacity() const;
+  size_type capacity() const;
 
   /* Modifiers */
   // Clears the contents of the container
-  void clear();
+  void clear() ft_noexcept;
 
   // Inserts value_ before pos_
-  VectorIterator<T> insert(VectorConstIterator<T> pos_, const T& value_);
+  iterator insert(const_iterator pos_, const value_type& value_);
 
   // Inserts count_ copy of value_ before pos_
-  VectorIterator<T> insert(VectorConstIterator<T> pos_, std::size_t count_,
-                           const T& value_);
+  iterator insert(const_iterator pos_, size_type count_,
+                  const value_type& value_);
 
   // Inserts [first_, last_) before pos_
   template <class InputIt>
-  VectorIterator<T> insert(VectorConstIterator<T> pos_, InputIt first_,
-                           InputIt last_);
+  iterator insert(const_iterator pos_, InputIt first_, InputIt last_);
 
   // Erases the element at pos_
-  VectorIterator<T> erase(VectorIterator<T> pos_);
+  iterator erase(iterator pos_);
 
   // Erases the elements in [first_, last_)
-  VectorIterator<T> erase(VectorIterator<T> first_, VectorIterator<T> last_);
+  iterator erase(iterator first_, iterator last_);
 
   // Adds element to end of the vector
-  void push_back(const T& value_);
+  void push_back(const value_type& value_);
 
   // Removes element from the end of the vector
   void pop_back();
 
   // Changes the number of elements stored
-  void resize(std::size_t count_, T value_ = T());
+  void resize(size_type count_, value_type value_ = value_type());
 
   // Swaps the contents of two vectors
   void swap(vector& other);

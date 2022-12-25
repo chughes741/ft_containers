@@ -13,5 +13,6 @@
 		"type_traits": "cpp",
 		"utility": "cpp",
 		"atomic": "cpp"
-	}
+	},
+	"editor.tabSize": 2
 }
