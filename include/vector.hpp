@@ -7,62 +7,11 @@
 #include <iterator>
 #include <memory>
 
+#include "interator.hpp"
+
 #define ft_noexcept throw()
 
 namespace ft {
-
-template <class MyVector>
-class VectorConstIterator {
- public:
-  VectorConstIterator();
-  VectorConstIterator(MyVector::pointer      p_arg_,
-                      const _Container_base* p_vector_);
-  MyVector::value_type&   operator*() const;
-  MyVector::const_pointer operator->() const;
-  VectorConstIterator&    operator++();
-  VectorConstIterator     operator++(int);
-  VectorConstIterator&    operator--();
-  VectorConstIterator     operator--(int);
-  VectorConstIterator&    operator+=(const MyVector::difference_type offset_);
-  VectorConstIterator  operator+(const MyVector::difference_type offset_) const;
-  VectorConstIterator  operator+(const MyVector::difference_type offset_,
-                                VectorConstIterator             next_);
-  VectorConstIterator& operator-=(const MyVector::difference_type offset_);
-  VectorConstIterator  operator-(const MyVector::difference_type offset_) const;
-  MyVector::difference_type operator-(const VectorConstIterator& rhs) const;
-  MyVector::value_type&     operator[](
-      const MyVector::difference_type offset_) const;
-  bool operator==(const VectorConstIterator& rhs) const;
-  bool operator!=(const VectorConstIterator& rhs) const;
-  bool operator<(const VectorConstIterator& rhs) const;
-  bool operator>(const VectorConstIterator& rhs) const;
-  bool operator<=(const VectorConstIterator& rhs) const;
-  bool operator>=(const VectorConstIterator& rhs) const;
-
-  MyVector::pointer ptr_;
-};
-
-template <class MyVector>
-class VectorIterator : public VectorConstIterator<MyVector> {
- public:
-  MyVector::value_type& operator*() const;
-  MyVector::pointer     operator->() const;
-  VectorIterator&       operator++();
-  VectorIterator        operator++(int);
-  VectorIterator&       operator--();
-  VectorIterator        operator--(int);
-  VectorIterator&       operator+=(const MyVector::difference_type offset_);
-  VectorIterator  operator+(const MyVector::difference_type offset_) const;
-  VectorIterator  operator+(const MyVector::difference_type offset_,
-                           VectorIterator                  next_);
-  VectorIterator& operator-=(const MyVector::difference_type offset_);
-  VectorIterator  operator-(const MyVector::difference_type offset_) const;
-  VectorIterator  operator-(const MyVector::difference_type offset_,
-                           VectorIterator                  next_);
-  VectorIterator  operator-(const MyVector::difference_type offset_) const;
-  MyVector::value_type& operator[](
-      const MyVector::difference_type offset_) const;
-};
 
 template <class ValueTypes>
 class VectorValue {
@@ -162,6 +111,31 @@ class vector {
   // element storage
   const value_type* data() const ft_noexcept;
 
+  /* Iterators */
+  //
+  iterator begin() ft_noexcept;
+
+  //
+  const_iterator begin() const ft_noexcept;
+
+  //
+  iterator end() ft_noexcept;
+
+  //
+  const_iterator end() const ft_noexcept;
+
+  //
+  reverse_iterator rbegin() ft_noexcept;
+
+  //
+  const_reverse_iterator rbegin() const ft_noexcept;
+
+  //
+  reverse_iterator rend() ft_noexcept;
+
+  //
+  const_reverse_iterator rend() const ft_noexcept;
+
   /* Capacity */
   // Checks if the container is empty
   bool empty() const ft_noexcept;
@@ -214,27 +188,40 @@ class vector {
 
 // equal to overload for vector
 template <class T, class Alloc>
-bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return !(lhs < rhs || rhs < lhs);
+}
 
 // not equal to overload for vector
 template <class T, class Alloc>
-bool operator!=(const vector<T, Alloc>& lsh, const vector<T, Alloc>& rsh);
+bool operator!=(const vector<T, Alloc>& lsh, const vector<T, Alloc>& rsh) {
+  return !(lhs == rhs);
+}
 
 // less than overload for vector
 template <class T, class Alloc>
-bool operator<(const vector<T, Alloc>& lsh, const vector<T, Alloc>& rhs);
+bool operator<(const vector<T, Alloc>& lsh, const vector<T, Alloc>& rhs) {
+  return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(),
+                                      rhs.end());
+}
 
 // greater than overload for vector
 template <class T, class Alloc>
-bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return rhs < lhs;
+}
 
 // less than or equal to overload for vector
 template <class T, class Alloc>
-bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return !(rhs < lhs);
+}
 
 // greater than or equal to overload for vector
 template <class T, class Alloc>
-bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs);
+bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs) {
+  return !(lhs < rhs);
+}
 
 // Uses the std::swap algorithm to swap two vectors
 template <class T, class Alloc>
