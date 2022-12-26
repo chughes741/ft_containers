@@ -3,4 +3,3 @@ Language: Cpp
 BasedOnStyle: Google
 AlignConsecutiveDeclarations: Consecutive
 AlignConsecutiveAssignments: Consecutive
-AllowShortFunctionsOnASingleLine: None
