@@ -1,6 +1,7 @@
 
-#ifndef PAIR_HPP_
-#define PAIR_HPP_
+#pragma once
+#ifndef UTILITY_HPP_
+#define UTILITY_HPP_
 
 #include <algorithm>
 
@@ -82,4 +83,4 @@ bool operator>=(const pair<T1, T2>& lhs, const pair<T1, T2>& rhs) {
 
 }  // namespace ft
 
-#endif  // PAIR_HPP_
+#endif  // UTILITY_HPP_
