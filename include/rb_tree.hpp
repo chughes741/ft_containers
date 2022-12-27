@@ -14,7 +14,7 @@ namespace ft {
 
 template <class Key, class T, class Compare = std::less<Key>,
           class Allocator = std::allocator<T>>
-class RbTree {
+class rb_tree {
  public:
   typedef Key       key_type;
   typedef T         value_type;
@@ -34,19 +34,19 @@ class RbTree {
   typedef typename allocator_type::const_reference const_reference;
 
   /* Member functions */
-  RbTree();
-  explicit RbTree(const Compare&        comp,
+  rb_tree();
+  explicit rb_tree(const Compare&        comp,
                   const allocator_type& alloc = allocator_type());
   template <class InputIt>
-  RbTree(InputIt first, InputIt last, const Compare& comp = Compare(),
+  rb_tree(InputIt first, InputIt last, const Compare& comp = Compare(),
          const allocator_type& alloc = allocator_type());
-  RbTree(const RbTree& other);
-  RbTree& operator=(const RbTree& other);
-  ~RbTree();
+  rb_tree(const rb_tree& other);
+  rb_tree& operator=(const rb_tree& other);
+  ~rb_tree();
   allocator_type get_allocator() const ft_noexcept;
 
   /* Element access */
-  value_type& at(const key_type& key);  // TODO should RbTree have kv pairs?
+  value_type& at(const key_type& key);  // TODO should rb_tree have kv pairs?
   const value_type& at(const key_type& key);
   value_type&       operator[](const key_type& key);
 
@@ -90,40 +90,40 @@ class RbTree {
 
   /* Friends */
   template <>  // TODO
-  friend bool operator==(const ft::RbTree<>& lhs, const ft::RbTree<>& rhs);
+  friend bool operator==(const ft::rb_tree<>& lhs, const ft::rb_tree<>& rhs);
 
   template <>  // TODO
-  friend bool operator<(const ft::RbTree<>& lhs, const ft::RbTree<>& rhs);
+  friend bool operator<(const ft::rb_tree<>& lhs, const ft::rb_tree<>& rhs);
 };
 
 template <class Key, class T, class Compare, class Alloc>
-bool operator==(const ft::RbTree<>& lhs, const ft::RbTree<>& rhs) {}  // TODO
+bool operator==(const ft::rb_tree<>& lhs, const ft::rb_tree<>& rhs) {}  // TODO
 
 template <class Key, class T, class Compare, class Alloc>
-bool operator!=(const ft::RbTree<Key, T, Compare, Alloc>& lhs,
-                const ft::RbTree<Key, T, Compare, Alloc>& rhs) {
+bool operator!=(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
+                const ft::rb_tree<Key, T, Compare, Alloc>& rhs) {
   return !(lhs.base == rhs.base);
 }
 
 template <class Key, class T, class Compare, class Alloc>
-bool operator<(const ft::RbTree<Key, T, Compare, Alloc>& lhs,
-               const ft::RbTree<Key, T, Compare, Alloc>& rhs) {}  // TODO
+bool operator<(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
+               const ft::rb_tree<Key, T, Compare, Alloc>& rhs) {}  // TODO
 
 template <class Key, class T, class Compare, class Alloc>
-bool operator>(const ft::RbTree<Key, T, Compare, Alloc>& lhs,
-               const ft::RbTree<Key, T, Compare, Alloc>& rhs) {
+bool operator>(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
+               const ft::rb_tree<Key, T, Compare, Alloc>& rhs) {
   return rhs < lhs;
 }
 
 template <class Key, class T, class Compare, class Alloc>
-bool operator<=(const ft::RbTree<Key, T, Compare, Alloc>& lhs,
-                const ft::RbTree<Key, T, Compare, Alloc>& rhs) {
+bool operator<=(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
+                const ft::rb_tree<Key, T, Compare, Alloc>& rhs) {
   return !(rhs < lhs);
 }
 
 template <class Key, class T, class Compare, class Alloc>
-bool operator>=(const ft::RbTree<Key, T, Compare, Alloc>& lhs,
-                const ft::RbTree<Key, T, Compare, Alloc>& rhs) {
+bool operator>=(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
+                const ft::rb_tree<Key, T, Compare, Alloc>& rhs) {
   return !(lhs < rhs);
 }
 

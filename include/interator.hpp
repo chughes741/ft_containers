@@ -3,14 +3,14 @@
 #ifndef INTERATOR_HPP_
 #define INTERATOR_HPP_
 
-#include <cstddef>
-#include <iterator>
+#include <cstddef>   //TODO check
+#include <iterator>  // std::iterator
+#include <memory>    // std::addressof
 
 #define ft_noexcept throw()
 
 namespace ft {
 
-//
 template <class Iter>
 struct iterator_traits {
  public:
@@ -21,7 +21,6 @@ struct iterator_traits {
   typedef Iter::iterator_category iterator_category;
 };
 
-//
 template <class T>
 struct iterator_traits<T*> {
  public:
@@ -32,7 +31,6 @@ struct iterator_traits<T*> {
   typedef std::random_access_iterator_tag iterator_category;
 };
 
-//
 template <class T>
 struct iterator_traits<const T*> {
  public:
@@ -43,40 +41,87 @@ struct iterator_traits<const T*> {
   typedef std::random_access_iterator_tag iterator_category;
 };
 
-//
 template <class Iter>
 class reverse_iterator
-    : public std::iterator<
-          typename iterator_traits<_Iterator>::iterator_category,
-          typename iterator_traits<_Iterator>::value_type,
-          typename iterator_traits<_Iterator>::difference_type,
-          typename iterator_traits<_Iterator>::pointer,
-          typename iterator_traits<_Iterator>::reference> {
+    : public std::iterator<ft::iterator_traits<Iter>::iterator_category,
+                           ft::iterator_traits<Iter>::value_type,
+                           ft::iterator_traits<Iter>::difference_type,
+                           ft::iterator_traits<Iter>::pointer,
+                           ft::iterator_traits<Iter>::reference> {
+ public:
+  typedef Iter iterator_type;
+
  protected:
   Iter current = Iter();
 
  public:
-  typedef Iter iterator_type;
-
-  reverse_iterator();
-  explicit reverse_iterator(iterator_type x);
+  reverse_iterator() : current() {}
+  explicit reverse_iterator(iterator_type x) : current(x) {}
   template <class U>
-  reverse_iterator(const reverse_iterator<U>& other);
+  reverse_iterator(const reverse_iterator<U>& other) : current(other) {}
   template <class U>
-  reverse_iterator& operator=(const reverse_iterator& other);
-  iterator_type     base() const;
+  reverse_iterator& operator=(const reverse_iterator& other) {
+    if (*this != other) {
+      this->current = other.current;
+    }
+    return *this;
+  }
+  iterator_type base() const {
+    return this->current;  // TODO this->current - 1?
+  }
 
-  reference         operator*() const;
-  pointer           operator->() const;
-  /* unspecified */ operator[](difference_type n) const;
-  reverse_iterator& operator++();
-  reverse_iterator& operator--();
-  reverse_iterator  operator++(int);
-  reverse_iterator  operator--(int);
-  reverse_iterator  operator+(difference_type n) const;
-  reverse_iterator  operator-(difference_type n) const;
-  reverse_iterator& operator+=(difference_type n);
-  reverse_iterator& operator-=(difference_type n);
+  reference operator*() const {
+    Iter temp = this->current;
+    return *--temp;
+  }
+  pointer           operator->() const { return std::addressof(operator*()); }
+  /* unspecified */ operator[](difference_type n) const {
+    return base()[-n - 1];
+  }
+  reverse_iterator& operator++() {
+    --current;
+    return *this;
+  }
+  reverse_iterator& operator--() {
+    ++current;
+    return *this;
+  }
+  reverse_iterator operator++(int) {
+    reverse_iterator<Iter> temp = reverse_iterator(this);
+    --current;
+    return temp;
+  }
+  reverse_iterator operator--(int) {
+    reverse_iterator<Iter> temp = reverse_iterator(this);
+    ++current;
+    return temp;
+  }
+  reverse_iterator operator+(difference_type n) const {
+    reverse_iterator<Iter> result = reverse_iterator(this);
+    result.current -= n;
+    return result;
+  }
+  reverse_iterator operator-(difference_type n) const {
+    reverse_iterator<Iter> result = reverse_iterator(this);
+    result.current += n;
+    return result;
+  }
+  reverse_iterator& operator+=(difference_type n) {
+    current -= n;
+    return *this;
+  }
+  reverse_iterator& operator-=(difference_type n) {
+    current += n;
+    return *this;
+  }
+
+  template <class Iter1, class Iter2>
+  friend bool operator==(const reverse_iterator<Iter1>& lhs,
+                         const reverse_iterator<Iter2>& rhs);
+
+  template <class Iter1, class Iter2>
+  friend bool operator<(const reverse_iterator<Iter1>& lhs,
+                        const reverse_iterator<Iter2>& rhs);
 };
 
 template <class Iter1, class Iter2>
@@ -112,89 +157,22 @@ bool operator>(const reverse_iterator<Iter1>& lhs,
 template <class Iter1, class Iter2>
 bool operator>=(const reverse_iterator<Iter1>& lhs,
                 const reverse_iterator<Iter2>& rhs) {
-  return lhs.base >= rhs.base();
+  return lhs.base() >= rhs.base();
 }
 
 template <class Iter>
 reverse_iterator<Iter> operator+(
     typename reverse_iterator<Iter>::difference_type n,
-    const reverse_iterator<Iter>&                    it);
+    const reverse_iterator<Iter>&                    it) {
+  reverse_iterator<Iter> rit = it + n;
+  return rit;
+}
 
 template <class Iter1, class Iter2>
 typename reverse_iterator<Iter1>::difference_type operator-(
-    const reverse_iterator<Iter1>& lhs, const reverse_iterator<Iter2>& rhs);
-
-// base iterator template
-template <class Container>
-class base_interator {
- public:
-  base_interator();
-  base_interator(Container::pointer p_arg_, const Container* p_container_);
-  Container::value_type&   operator*() const;
-  Container::const_pointer operator->() const;
-  base_interator&          operator++();
-  base_interator           operator++(int);
-  base_interator&          operator--();
-  base_interator           operator--(int);
-  base_interator&          operator+=(const Container::difference_type offset_);
-  base_interator(const Interator& other);
-  base_interator& operator=(const Interator& rhs);
-  ~base_interator();
-
- private:
-};
-
-template <class MyVector>
-class VectorConstIterator : public base_interator<MyVector> {
- public:
-  VectorConstIterator();
-  VectorConstIterator(MyVector::pointer p_arg_, const BaseContainer* p_vector_);
-  MyVector::value_type&   operator*() const;
-  MyVector::const_pointer operator->() const;
-  VectorConstIterator&    operator++();
-  VectorConstIterator     operator++(int);
-  VectorConstIterator&    operator--();
-  VectorConstIterator     operator--(int);
-  VectorConstIterator&    operator+=(const MyVector::difference_type offset_);
-  VectorConstIterator  operator+(const MyVector::difference_type offset_) const;
-  VectorConstIterator  operator+(const MyVector::difference_type offset_,
-                                VectorConstIterator             next_);
-  VectorConstIterator& operator-=(const MyVector::difference_type offset_);
-  VectorConstIterator  operator-(const MyVector::difference_type offset_) const;
-  MyVector::difference_type operator-(const VectorConstIterator& rhs) const;
-  MyVector::value_type&     operator[](
-      const MyVector::difference_type offset_) const;
-  bool operator==(const VectorConstIterator& rhs) const;
-  bool operator!=(const VectorConstIterator& rhs) const;
-  bool operator<(const VectorConstIterator& rhs) const;
-  bool operator>(const VectorConstIterator& rhs) const;
-  bool operator<=(const VectorConstIterator& rhs) const;
-  bool operator>=(const VectorConstIterator& rhs) const;
-
-  MyVector::pointer ptr_;
-};
-
-template <class MyVector>
-class VectorIterator : public VectorConstIterator<MyVector> {
- public:
-  MyVector::value_type& operator*() const;
-  MyVector::pointer     operator->() const;
-  VectorIterator&       operator++();
-  VectorIterator        operator++(int);
-  VectorIterator&       operator--();
-  VectorIterator        operator--(int);
-  VectorIterator&       operator+=(const MyVector::difference_type offset_);
-  VectorIterator  operator+(const MyVector::difference_type offset_) const;
-  VectorIterator  operator+(const MyVector::difference_type offset_,
-                           VectorIterator                  next_);
-  VectorIterator& operator-=(const MyVector::difference_type offset_);
-  VectorIterator  operator-(const MyVector::difference_type offset_) const;
-  VectorIterator  operator-(const MyVector::difference_type offset_,
-                           VectorIterator                  next_);
-  VectorIterator  operator-(const MyVector::difference_type offset_) const;
-  MyVector::value_type& operator[](
-      const MyVector::difference_type offset_) const;
-};
+    const reverse_iterator<Iter1>& lhs, const reverse_iterator<Iter2>& rhs) {
+  return lhs.base() - rhs.base();
+}
 
 }  // namespace ft
 
