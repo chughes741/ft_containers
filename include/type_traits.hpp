@@ -48,6 +48,23 @@ struct is_integral_helper<unsigned long int> : public true_type {};
 template <class T>
 struct is_integral : is_integral_helper<remove_cv<T>>::type {};
 
+template <class T>
+struct remove_cv {
+  typedef T type;
+};
+template <class T>
+struct remove_cv<const T> {
+  typedef T type;
+};
+template <class T>
+struct remove_cv<volatile T> {
+  typedef T type;
+};
+template <class T>
+struct remove_cv<const volatile T> {
+  typedef T type;
+};
+
 template <bool B, class T = void>
 struct enable_if {};
 
