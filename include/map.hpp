@@ -29,7 +29,7 @@ class map {
     friend class map<Key, T, Compare, Allocator>;
 
    protected:
-    map::Compare comp_;
+    Compare comp;
 
     value_compare(Compare c) : comp(c) {}
 
@@ -56,7 +56,7 @@ class map {
   typedef typename base_type::iterator               iterator;
   typedef typename base_type::reverse_iterator       reverse_iterator;
   typedef typename base_type::const_iterator         const_iterator;
-  typedef typename base_type::const_reverse_iterator reverse_iterator;
+  typedef typename base_type::const_reverse_iterator const_reverse_iterator;
 
   /* Member functions */
   map() : base_() {}
@@ -79,7 +79,7 @@ class map {
 
   /* Element access */
   mapped_type&       at(const key_type& key);
-  const mapped_type& at(const key_type& key);
+  const mapped_type& at(const key_type& key) const;
   mapped_type&       operator[](const key_type& key);
 
   /* Iterators */
@@ -142,19 +142,17 @@ class map {
   }
 
   /* Observers */
-  key_compare key_comp() const { return Compare(); }
-  ft::map::value_compare value_comp() const {
+  key_compare            key_comp() const { return Compare(); }
+  map::value_compare value_comp() const {
     return value_compare(base_.key_comp());
   }
 
   /* Friends */
-  template <class Key, class T, class Compare, class Alloc>
-  friend bool operator==(const ft::map<Key, T, Compare, Alloc>& lhs,
-                         const ft::map<Key, T, Compare, Alloc>& rhs);
+  friend bool operator==(const ft::map<Key, T, Compare, Allocator>& lhs,
+                         const ft::map<Key, T, Compare, Allocator>& rhs);
 
-  template <class Key, class T, class Compare, class Alloc>
-  friend bool operator<(const ft::map<Key, T, Compare, Alloc>& lhs,
-                        const ft::map<Key, T, Compare, Alloc>& rhs);
+  friend bool operator<(const ft::map<Key, T, Compare, Allocator>& lhs,
+                        const ft::map<Key, T, Compare, Allocator>& rhs);
 };
 
 template <class Key, class T, class Compare, class Alloc>
