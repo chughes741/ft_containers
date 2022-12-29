@@ -81,10 +81,8 @@ class reverse_iterator
     Iter temp = this->current;
     return *--temp;
   }
-  pointer           operator->() const { return std::addressof(operator*()); }
-  pointer operator[](difference_type n) const {
-    return base()[-n - 1];
-  }
+  pointer operator->() const { return std::addressof(operator*()); }
+  pointer operator[](difference_type n) const { return base()[-n - 1]; }
   reverse_iterator& operator++() {
     --current;
     return *this;

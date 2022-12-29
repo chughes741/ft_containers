@@ -142,7 +142,7 @@ class map {
   }
 
   /* Observers */
-  key_compare            key_comp() const { return Compare(); }
+  key_compare        key_comp() const { return Compare(); }
   map::value_compare value_comp() const {
     return value_compare(base_.key_comp());
   }

@@ -10,7 +10,7 @@ namespace ft {
 template <class T, class Container = ft::vector<T>>
 class stack {
  public:
-  typedef Container                  container_type;
+  typedef Container                           container_type;
   typedef typename Container::value_type      value_type;
   typedef typename Container::size_type       size_type;
   typedef typename Container::reference       reference;
