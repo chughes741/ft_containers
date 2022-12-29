@@ -1,10 +1,15 @@
 
+#include "algorithm.hpp"
+
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <algorithm>
 
-#include "algorithm.hpp"
+TEST(EqualTest, BasicAssertions) {
+  EXPECT_EQ(1, 1);
+}
 
-int main() {
-  std::cout << "Running algorithm test suite" << std::endl;
-  return 0;
+TEST(LexographicalCompareTest, BasicAssertions) {
+  EXPECT_EQ(1, 1);
 }

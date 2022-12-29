@@ -1,10 +1,11 @@
 
+#include "vector.hpp"
+
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <vector>
 
-#include "vector.hpp"
-
-int main() {
-  std::cout << "Running vector test suite" << std::endl;
-  return 0;
+TEST(VectorTest, BasicAssertions) {
+  EXPECT_EQ(1, 1);
 }

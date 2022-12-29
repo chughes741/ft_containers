@@ -1,10 +1,11 @@
 
+#include "iterator.hpp"
+
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <iterator>
 
-#include "iterator.hpp"
-
-int main() {
-  std::cout << "Running iterator test suite" << std::endl;
-  return 0;
+TEST(ReverseIteratorTest, BasicAssertions) {
+  EXPECT_EQ(1, 1);
 }

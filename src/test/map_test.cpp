@@ -1,10 +1,11 @@
 
+#include "map.hpp"
+
+#include <gtest/gtest.h>
+
 #include <iostream>
 #include <map>
 
-#include "map.hpp"
-
-int main() {
-  std::cout << "Running map test suite" << std::endl;
-  return 0;
+TEST(MapTest, BasicAssertions) {
+  EXPECT_EQ(1, 1);
 }

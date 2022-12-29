@@ -8,7 +8,7 @@
 #include <string>
 
 #include "algorithm.hpp"
-#include "interator.hpp"
+#include "iterator.hpp"
 
 #define ft_noexcept throw()
 
