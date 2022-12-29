@@ -3,7 +3,8 @@
 #ifndef VECTOR_HPP_
 #define VECTOR_HPP_
 
-#include <memory>
+#include <iterator>  // std::iterator
+#include <memory> // std::uninitialized_fill
 #include <stdexcept>
 #include <string>
 
@@ -13,6 +14,208 @@
 #define ft_noexcept throw()
 
 namespace ft {
+
+template <class MyVector>
+class vector_const_iterator {
+ public:
+  typedef std::random_access_iterator_tag    iterator_category;
+  typedef typename MyVector::value_type      value_type;
+  typedef typename MyVector::difference_type difference_type;
+  typedef typename MyVector::pointer         pointer;
+  typedef typename MyVector::const_pointer   const_pointer;
+  typedef typename MyVector::reference       reference;
+  typedef typename MyVector::const_reference const_reference;
+
+  const_pointer ptr_;
+
+  vector_const_iterator() ft_noexcept : ptr_() {}
+  value_type&            operator*() const ft_noexcept { return *ptr_; }
+  const_pointer          operator->() const ft_noexcept { return ptr_; }
+  vector_const_iterator& operator++() ft_noexcept {
+    ++ptr_;
+    return *this;
+  }
+  vector_const_iterator operator++(int) ft_noexcept {
+    vector_const_iterator temp = *this;
+    ++ptr_;
+    return temp;
+  }
+  vector_const_iterator& operator--() ft_noexcept {
+    --ptr_;
+    return *this;
+  }
+  vector_const_iterator operator--(int) {
+    vector_const_iterator temp = *this;
+    --ptr_;
+    return temp;
+  }
+  vector_const_iterator& operator+=(const difference_type offset) {
+    ptr_ += offset;
+    return *this;
+  }
+  vector_const_iterator operator+(const difference_type offset) const {
+    vector_const_iterator temp = *this;
+    temp += offset;
+    return temp;
+  }
+  vector_const_iterator& operator-=(const difference_type offset) {
+    ptr_ -= offset;
+    return *this;
+  }
+  vector_const_iterator operator-(const difference_type offset) const {
+    vector_const_iterator temp = *this;
+    temp -= offset;
+    return temp;
+  }
+  difference_type operator-(const vector_const_iterator& rhs) const {
+    return ptr_ - rhs.ptr_;
+  }
+  value_type& operator[](const difference_type offset) const {
+    return *(ptr_ + offset);
+  }
+
+  friend bool operator==(const vector_const_iterator<MyVector>& lhs,
+                         const vector_const_iterator<MyVector>& rhs);
+
+  friend bool operator<(const vector_const_iterator<MyVector>& lhs,
+                        const vector_const_iterator<MyVector>& rhs);
+};
+
+template <class MyVector>
+bool operator!=(const ft::vector_const_iterator<MyVector>& lhs,
+                const ft::vector_const_iterator<MyVector>& rhs) {
+  return !(lhs == rhs);
+}
+
+template <class MyVector>
+bool operator<(const ft::vector_const_iterator<MyVector>& lhs,
+               const ft::vector_const_iterator<MyVector>& rhs) {
+  return lhs.ptr_ < rhs.ptr_;
+}
+
+template <class MyVector>
+bool operator>(const ft::vector_const_iterator<MyVector>& lhs,
+               const ft::vector_const_iterator<MyVector>& rhs) {
+  return rhs < lhs;
+}
+
+template <class MyVector>
+bool operator<=(const ft::vector_const_iterator<MyVector>& lhs,
+                const ft::vector_const_iterator<MyVector>& rhs) {
+  return !(rhs < lhs);
+}
+
+template <class MyVector>
+bool operator>=(const ft::vector_const_iterator<MyVector>& lhs,
+                const ft::vector_const_iterator<MyVector>& rhs) {
+  return !(lhs < rhs);
+}
+
+template <class MyVector>
+class vector_iterator : public ft::vector_const_iterator<MyVector> {
+ public:
+  typedef typename ft::vector_const_iterator<MyVector>::iterator_category
+      iterator_category;
+  typedef typename ft::vector_const_iterator<MyVector>::value_type value_type;
+  typedef typename ft::vector_const_iterator<MyVector>::difference_type
+                                                                difference_type;
+  typedef typename ft::vector_const_iterator<MyVector>::pointer pointer;
+  typedef
+      typename ft::vector_const_iterator<MyVector>::const_pointer const_pointer;
+  typedef typename ft::vector_const_iterator<MyVector>::reference reference;
+  typedef typename ft::vector_const_iterator<MyVector>::const_reference
+      const_reference;
+
+  pointer ptr_;
+
+  vector_iterator() ft_noexcept : ptr_() {}
+  value_type&      operator*() const ft_noexcept { return *ptr_; }
+  const_pointer    operator->() const ft_noexcept { return ptr_; }
+  vector_iterator& operator++() ft_noexcept {
+    ++ptr_;
+    return *this;
+  }
+  vector_iterator operator++(int) ft_noexcept {
+    vector_iterator temp = *this;
+    ++ptr_;
+    return temp;
+  }
+  vector_iterator& operator--() ft_noexcept {
+    --ptr_;
+    return *this;
+  }
+  vector_iterator operator--(int) {
+    vector_iterator temp = *this;
+    --ptr_;
+    return temp;
+  }
+  vector_iterator& operator+=(const difference_type offset) {
+    ptr_ += offset;
+    return *this;
+  }
+  vector_iterator operator+(const difference_type offset) const {
+    vector_iterator temp = *this;
+    temp += offset;
+    return temp;
+  }
+  vector_iterator& operator-=(const difference_type offset) {
+    ptr_ -= offset;
+    return *this;
+  }
+  vector_iterator operator-(const difference_type offset) const {
+    vector_iterator temp = *this;
+    temp -= offset;
+    return temp;
+  }
+  difference_type operator-(const vector_iterator& rhs) const {
+    return ptr_ - rhs.ptr_;
+  }
+  value_type& operator[](const difference_type offset) const {
+    return *(ptr_ + offset);
+  }
+
+  friend bool operator==(const vector_iterator<MyVector>& lhs,
+                         const vector_iterator<MyVector>& rhs);
+
+  friend bool operator<(const vector_iterator<MyVector>& lhs,
+                        const vector_iterator<MyVector>& rhs);
+};
+
+template <class MyVector>
+bool operator==(const ft::vector_iterator<MyVector>& lhs,
+                const ft::vector_iterator<MyVector>& rhs) {
+  return lhs.ptr_ == rhs.ptr_;
+}
+
+template <class MyVector>
+bool operator!=(const ft::vector_iterator<MyVector>& lhs,
+                const ft::vector_iterator<MyVector>& rhs) {
+  return !(lhs == rhs);
+}
+
+template <class MyVector>
+bool operator<(const ft::vector_iterator<MyVector>& lhs,
+               const ft::vector_iterator<MyVector>& rhs) {
+  return lhs.ptr_ < rhs.ptr_;
+}
+
+template <class MyVector>
+bool operator>(const ft::vector_iterator<MyVector>& lhs,
+               const ft::vector_iterator<MyVector>& rhs) {
+  return rhs < lhs;
+}
+
+template <class MyVector>
+bool operator<=(const ft::vector_iterator<MyVector>& lhs,
+                const ft::vector_iterator<MyVector>& rhs) {
+  return !(rhs < lhs);
+}
+
+template <class MyVector>
+bool operator>=(const ft::vector_iterator<MyVector>& lhs,
+                const ft::vector_iterator<MyVector>& rhs) {
+  return !(lhs < rhs);
+}
 
 template <class T, class Allocator = std::allocator<T>>
 class vector {
@@ -27,8 +230,8 @@ class vector {
   typedef typename allocator_type::size_type       size_type;
   typedef typename allocator_type::difference_type difference_type;
 
-  typedef vector_iterator<T>                   iterator;
-  typedef vector_const_iterator<T>             const_iterator;
+  typedef ft::vector_iterator<T>               iterator;
+  typedef ft::vector_const_iterator<T>         const_iterator;
   typedef ft::reverse_iterator<iterator>       reverse_iterator;
   typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -54,7 +257,7 @@ class vector {
         first_(alloc_.allocate(count * sizeof(value_type))),
         last_(first_ + count * sizeof(value_type)),
         end_(last_) {
-    std::unitialized_fill(this->begin(), this->end(), value_type());
+    std::uninitialized_fill(this->begin(), this->end(), value_type());
   }
   template <class InputIt>
   vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
@@ -168,7 +371,7 @@ class vector {
       std::string message = " pos (which is " + pos +
                             ") >= this->size() (which is " + this->size() +
                             ")\n";
-      throw std::out_of_range(message)
+      throw std::out_of_range(message);
     }
   }
 };
@@ -183,13 +386,13 @@ bool operator==(const ft::vector<T, Alloc>& lhs,
 }
 
 template <class T, class Alloc>
-bool operator!=(const ft::vector<T, Alloc>& lsh,
-                const ft::vector<T, Alloc>& rsh) {
+bool operator!=(const ft::vector<T, Alloc>& lhs,
+                const ft::vector<T, Alloc>& rhs) {
   return !(lhs == rhs);
 }
 
 template <class T, class Alloc>
-bool operator<(const ft::vector<T, Alloc>& lsh,
+bool operator<(const ft::vector<T, Alloc>& lhs,
                const ft::vector<T, Alloc>& rhs) {
   return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(),
                                      rhs.end());
@@ -215,208 +418,6 @@ bool operator>=(const ft::vector<T, Alloc>& lhs,
 
 template <class T, class Alloc>
 void swap(ft::vector<T, Alloc>& lhs, ft::vector<T, Alloc>& rhs) {}
-
-template <class MyVector>
-class vector_const_iterator : public interator<MyVector> {
- public:
-  typedef std::random_access_iterator_tag iterator_category;
-  typedef MyVector::value_type            value_type;
-  typedef MyVector::difference_type       difference_type;
-  typedef MyVector::pointer               pointer;
-  typedef MyVector::const_pointer         const_pointer;
-  typedef MyVector::reference             reference;
-  typedef MyVector::const_reference       const_reference;
-
-  const_pointer ptr_;
-
-  vector_const_iterator() ft_noexcept : ptr_() {}
-  value_type&            operator*() const ft_noexcept { return *ptr_; }
-  const_pointer          operator->() const ft_noexcept { return ptr_; }
-  vector_const_iterator& operator++() ft_noexcept {
-    ++ptr_;
-    return *this;
-  }
-  vector_const_iterator operator++(int) ft_noexcept {
-    vector_const_iterator temp = *this;
-    ++ptr_;
-    return temp;
-  }
-  vector_const_iterator& operator--() ft_noexcept {
-    --ptr_;
-    return *this;
-  }
-  vector_const_iterator operator--(int) {
-    vector_const_iterator temp = *this;
-    --ptr_;
-    return temp;
-  }
-  vector_const_iterator& operator+=(const difference_type offset) {
-    ptr_ += offset;
-    return *this;
-  }
-  vector_const_iterator operator+(const difference_type offset) const {
-    vector_const_iterator temp = *this;
-    temp += offset;
-    return temp;
-  }
-  vector_const_iterator& operator-=(const difference_type offset) {
-    ptr -= offset;
-    return *this;
-  }
-  vector_const_iterator operator-(const difference_type offset) const {
-    vector_const_iterator temp = *this;
-    temp -= offset;
-    return temp;
-  }
-  difference_type operator-(const vector_const_iterator& rhs) const {
-    return ptr_ - rhs.ptr_;
-  }
-  value_type& operator[](const difference_type offset) const {
-    return *(ptr_ + offset);
-  }
-
-  template <class MyVector>
-  friend bool operator==(const vector_const_iterator<MyVector>& lhs,
-                         const vector_const_iterator<MyVector>& rhs);
-
-  template <class MyVector>
-  friend bool operator<(const vector_const_iterator<MyVector>& lhs,
-                        const vector_const_iterator<MyVector>& rhs);
-};
-
-template <class MyVector>
-bool operator!=(const ft::vector_const_iterator<MyVector>& lhs,
-                const ft::vector_const_iterator<MyVector>& rhs) {
-  return !(lhs == rhs);
-}
-
-template <class MyVector>
-bool operator<(const ft::vector_const_iterator<MyVector>& lhs,
-               const ft::vector_const_iterator<MyVector>& rhs) {
-  return lhs.ptr_ < rhs.ptr_;
-}
-
-template <class MyVector>
-bool operator>(const ft::vector_const_iterator<MyVector>& lhs,
-               const ft::vector_const_iterator<MyVector>& rhs) {
-  return rhs < lhs;
-}
-
-template <class MyVector>
-bool operator<=(const ft::vector_const_iterator<MyVector>& lhs,
-                const ft::vector_const_iterator<MyVector>& rhs) {
-  return !(rhs < lhs);
-}
-
-template <class MyVector>
-bool operator>=(const ft::vector_const_iterator<MyVector>& lhs,
-                const ft::vector_const_iterator<MyVector>& rhs) {
-  return !(lhs < rhs);
-}
-
-template <class MyVector>
-class vector_iterator : public vector_const_iterator<MyVector> {
- public:
-  typedef vector_const_iterator::iterator_category iterator_category;
-  typedef vector_const_iterator::value_type        value_type;
-  typedef vector_const_iterator::difference_type   difference_type;
-  typedef vector_const_iterator::pointer           pointer;
-  typedef vector_const_iterator::const_pointer     const_pointer;
-  typedef vector_const_iterator::reference         reference;
-  typedef vector_const_iterator::const_reference   const_reference;
-
-  pointer ptr_;
-
-  vector_iterator() ft_noexcept : ptr_() {}
-  value_type&      operator*() const ft_noexcept { return *ptr_; }
-  const_pointer    operator->() const ft_noexcept { return ptr_; }
-  vector_iterator& operator++() ft_noexcept {
-    ++ptr_;
-    return *this;
-  }
-  vector_iterator operator++(int) ft_noexcept {
-    vector_iterator temp = *this;
-    ++ptr_;
-    return temp;
-  }
-  vector_iterator& operator--() ft_noexcept {
-    --ptr_;
-    return *this;
-  }
-  vector_iterator operator--(int) {
-    vector_iterator temp = *this;
-    --ptr_;
-    return temp;
-  }
-  vector_iterator& operator+=(const difference_type offset) {
-    ptr_ += offset;
-    return *this;
-  }
-  vector_iterator operator+(const difference_type offset) const {
-    vector_iterator temp = *this;
-    temp += offset;
-    return temp;
-  }
-  vector_iterator& operator-=(const difference_type offset) {
-    ptr -= offset;
-    return *this;
-  }
-  vector_iterator operator-(const difference_type offset) const {
-    vector_iterator temp = *this;
-    temp -= offset;
-    return temp;
-  }
-  difference_type operator-(const vector_iterator& rhs) const {
-    return ptr_ - rhs.ptr_;
-  }
-  value_type& operator[](const difference_type offset) const {
-    return *(ptr_ + offset);
-  }
-
-  template <class MyVector>
-  friend bool operator==(const vector_iterator<MyVector>& lhs,
-                         const vector_iterator<MyVector>& rhs);
-
-  template <class MyVector>
-  friend bool operator<(const vector_iterator<MyVector>& lhs,
-                        const vector_iterator<MyVector>& rhs);
-};
-
-template <class MyVector>
-bool operator==(const ft::vector_iterator<MyVector>& lhs,
-                const ft::vector_iterator<MyVector>& rhs) {
-  return lhs.ptr_ == rhs.ptr_;
-}
-
-template <class MyVector>
-bool operator!=(const ft::vector_iterator<MyVector>& lhs,
-                const ft::vector_iterator<MyVector>& rhs) {
-  return !(lhs == rhs);
-}
-
-template <class MyVector>
-bool operator<(const ft::vector_iterator<MyVector>& lhs,
-               const ft::vector_iterator<MyVector>& rhs) {
-  return lhs.ptr_ < rhs.ptr_;
-}
-
-template <class MyVector>
-bool operator>(const ft::vector_iterator<MyVector>& lhs,
-               const ft::vector_iterator<MyVector>& rhs) {
-  return rhs < lhs;
-}
-
-template <class MyVector>
-bool operator<=(const ft::vector_iterator<MyVector>& lhs,
-                const ft::vector_iterator<MyVector>& rhs) {
-  return !(rhs < lhs);
-}
-
-template <class MyVector>
-bool operator>=(const ft::vector_iterator<MyVector>& lhs,
-                const ft::vector_iterator<MyVector>& rhs) {
-  return !(lhs < rhs);
-}
 
 }  // namespace ft
 

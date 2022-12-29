@@ -14,11 +14,11 @@ namespace ft {
 template <class Iter>
 struct iterator_traits {
  public:
-  typedef Iter::difference_type   difference_type;
-  typedef Iter::value_type        value_type;
-  typedef Iter::pointer           pointer;
-  typedef Iter::reference         reference;
-  typedef Iter::iterator_category iterator_category;
+  typedef typename Iter::difference_type   difference_type;
+  typedef typename Iter::value_type        value_type;
+  typedef typename Iter::pointer           pointer;
+  typedef typename Iter::reference         reference;
+  typedef typename Iter::iterator_category iterator_category;
 };
 
 template <class T>
@@ -43,13 +43,20 @@ struct iterator_traits<const T*> {
 
 template <class Iter>
 class reverse_iterator
-    : public std::iterator<ft::iterator_traits<Iter>::iterator_category,
-                           ft::iterator_traits<Iter>::value_type,
-                           ft::iterator_traits<Iter>::difference_type,
-                           ft::iterator_traits<Iter>::pointer,
-                           ft::iterator_traits<Iter>::reference> {
+    : public std::iterator<
+          typename ft::iterator_traits<Iter>::iterator_category,
+          typename ft::iterator_traits<Iter>::value_type,
+          typename ft::iterator_traits<Iter>::difference_type,
+          typename ft::iterator_traits<Iter>::pointer,
+          typename ft::iterator_traits<Iter>::reference> {
  public:
   typedef Iter iterator_type;
+  typedef
+      typename ft::iterator_traits<Iter>::iterator_category   iterator_category;
+  typedef typename ft::iterator_traits<Iter>::value_type      value_type;
+  typedef typename ft::iterator_traits<Iter>::difference_type difference_type;
+  typedef typename ft::iterator_traits<Iter>::pointer         pointer;
+  typedef typename ft::iterator_traits<Iter>::reference       reference;
 
  protected:
   Iter current = Iter();
@@ -75,7 +82,7 @@ class reverse_iterator
     return *--temp;
   }
   pointer           operator->() const { return std::addressof(operator*()); }
-  /* unspecified */ operator[](difference_type n) const {
+  pointer operator[](difference_type n) const {
     return base()[-n - 1];
   }
   reverse_iterator& operator++() {
