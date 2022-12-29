@@ -4,7 +4,7 @@
 #define VECTOR_HPP_
 
 #include <iterator>  // std::iterator
-#include <memory> // std::uninitialized_fill
+#include <memory>    // std::uninitialized_fill
 #include <stdexcept>
 #include <string>
 
@@ -263,7 +263,7 @@ class vector {
   vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
       : alloc_(alloc) {
     first_ = alloc_.allocate(last - first);
-    last_  = first_ + last - first;
+    last_  = first_ + (last - first);
     std::copy(first, last, first_);
   }
   vector(const vector& other) {
@@ -273,7 +273,7 @@ class vector {
     if (*this == rhs) {
       return *this;
     }
-    if (this->capacity < rhs.capacity()) {
+    if (this->capacity() < rhs.capacity()) {
       this->resize(rhs.capacity());
     }
     std::fill(this->begin(), this->end(), value_type());
@@ -313,14 +313,10 @@ class vector {
   value_type*       data() ft_noexcept { return &(this->first_); }
   const value_type* data() const ft_noexcept { return &(this->first_); }
 
-  iterator       begin() ft_noexcept { return iterator(this->first_, this); }
-  const_iterator begin() const ft_noexcept {
-    return const_iterator(this->first_, this);
-  }
-  iterator       end() ft_noexcept { return iterator(this->last_ + 1, this); }
-  const_iterator end() const ft_noexcept {
-    return const_iterator(this->last_ + 1, this);
-  }
+  iterator         begin() ft_noexcept { return this->first_; }
+  const_iterator   begin() const ft_noexcept { return this->first_; }
+  iterator         end() ft_noexcept { return this->last_; }
+  const_iterator   end() const ft_noexcept { return this->last_ + 1; }
   reverse_iterator rbegin() ft_noexcept {
     return reverse_iterator(this->first_, this);
   }
