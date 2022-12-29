@@ -3,7 +3,8 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems
   CACHE STRING "Vcpkg toolchain file")
 project(ft_containers VERSION 1.0.0)
 
-set (CMAKE_CXX_STANDARD 98)
+set(CMAKE_CXX_STANDARD 98)
+set(CMAKE_MAKE_PROGRAM make)
 
 find_package(GTest CONFIG REQUIRED)
 
