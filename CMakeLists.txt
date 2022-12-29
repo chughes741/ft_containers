@@ -37,12 +37,20 @@ target_link_libraries(
   PUBLIC ft_STL
   GTest::gtest_main
 )
+add_test(
+  NAME algorithm_test
+  COMMAND $<TARGET_FILE:algorithm_test>
+)
 
 add_executable(iterator_test src/test/iterator_test.cpp)
 target_link_libraries(
   iterator_test 
   PUBLIC ft_STL
   GTest::gtest_main
+)
+add_test(
+  NAME iterator_test
+  COMMAND $<TARGET_FILE:iterator_test>
 )
 
 add_executable(map_test src/test/map_test.cpp)
@@ -51,12 +59,20 @@ target_link_libraries(
   PUBLIC ft_STL
   GTest::gtest_main
 )
+add_test(
+  NAME map_test
+  COMMAND $<TARGET_FILE:map_test>
+)
 
 add_executable(rb_tree_test src/test/rb_tree_test.cpp)
 target_link_libraries(
   rb_tree_test 
   PUBLIC ft_STL
   GTest::gtest_main
+)
+add_test(
+  NAME rb_tree_test
+  COMMAND $<TARGET_FILE:rb_tree_test>
 )
 
 add_executable(stack_test src/test/stack_test.cpp)
@@ -65,6 +81,10 @@ target_link_libraries(
   PUBLIC ft_STL
   GTest::gtest_main
 )
+add_test(
+  NAME stack_test
+  COMMAND $<TARGET_FILE:stack_test>
+)
 
 add_executable(utility_test src/test/utility_test.cpp)
 target_link_libraries(
@@ -72,10 +92,18 @@ target_link_libraries(
   PUBLIC ft_STL
   GTest::gtest_main
 )
+add_test(
+  NAME utility_test
+  COMMAND $<TARGET_FILE:utility_test>
+)
 
 add_executable(vector_test src/test/vector_test.cpp)
 target_link_libraries(
   vector_test 
   PUBLIC ft_STL
   GTest::gtest_main
+)
+add_test(
+  NAME vector_test
+  COMMAND $<TARGET_FILE:vector_test>
 )
