@@ -31,18 +31,12 @@ struct pair {
   // Data members
   T1 first_;
   T2 second_;
-
-  template <class T1, class T2>
-  friend bool operator==(const pair<T1, T2>& lhs, const pair<T1, T2>& rhs);
-
-  template <class T1, class T2>
-  friend bool operator<(const pair<T1, T2>& lhs, const pair<T1, T2>& rhs);
 };
 
 // Creates a pair object, deduces type from arguments
 template <class T1, class T2>
 ft::pair<T1, T2> make_pair(T1 first, T2 second) {
-  ft::pair<T1, T2> new_pair = ft::pair(first, second);
+  ft::pair<T1, T2> new_pair = ft::pair<T1, T2>(first, second);
   return new_pair;
 }
 
