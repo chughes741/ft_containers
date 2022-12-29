@@ -28,18 +28,19 @@ class rb_tree {
   typedef typename allocator_type::size_type       size_type;
   typedef typename allocator_type::difference_type difference_type;
 
-  typedef typename allocator_type::iterator        iterator;
-  typedef typename allocator_type::const_iterator  const_iterator;
-  typedef typename allocator_type::reference       reference;
-  typedef typename allocator_type::const_reference const_reference;
+  typedef typename allocator_type::iterator         iterator;
+  typedef typename allocator_type::const_iterator   const_iterator;
+  typedef typename allocator_type::reverse_iterator reverse_iterator;
+  typedef
+      typename allocator_type::const_reverse_iterator const_reverse_iterator;
 
   /* Member functions */
   rb_tree();
   explicit rb_tree(const Compare&        comp,
-                  const allocator_type& alloc = allocator_type());
+                   const allocator_type& alloc = allocator_type());
   template <class InputIt>
   rb_tree(InputIt first, InputIt last, const Compare& comp = Compare(),
-         const allocator_type& alloc = allocator_type());
+          const allocator_type& alloc = allocator_type());
   rb_tree(const rb_tree& other);
   rb_tree& operator=(const rb_tree& other);
   ~rb_tree();
@@ -47,7 +48,7 @@ class rb_tree {
 
   /* Element access */
   value_type& at(const key_type& key);  // TODO should rb_tree have kv pairs?
-  const value_type& at(const key_type& key);
+  const value_type& at(const key_type& key) const;
   value_type&       operator[](const key_type& key);
 
   /* Iterators */
@@ -89,15 +90,16 @@ class rb_tree {
   const_iterator upper_bound(const value_type& value) const;
 
   /* Friends */
-  template <>  // TODO
-  friend bool operator==(const ft::rb_tree<>& lhs, const ft::rb_tree<>& rhs);
+  friend bool operator==(const rb_tree<Key, T, Compare, Allocator>& lhs,
+                         const rb_tree<Key, T, Compare, Allocator>& rhs);
 
-  template <>  // TODO
-  friend bool operator<(const ft::rb_tree<>& lhs, const ft::rb_tree<>& rhs);
+  friend bool operator<(const rb_tree<Key, T, Compare, Allocator>& lhs,
+                        const rb_tree<Key, T, Compare, Allocator>& rhs);
 };
 
 template <class Key, class T, class Compare, class Alloc>
-bool operator==(const ft::rb_tree<>& lhs, const ft::rb_tree<>& rhs) {}  // TODO
+bool operator==(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
+                const ft::rb_tree<Key, T, Compare, Alloc>& rhs) {}
 
 template <class Key, class T, class Compare, class Alloc>
 bool operator!=(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
@@ -107,7 +109,7 @@ bool operator!=(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
 
 template <class Key, class T, class Compare, class Alloc>
 bool operator<(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
-               const ft::rb_tree<Key, T, Compare, Alloc>& rhs) {}  // TODO
+               const ft::rb_tree<Key, T, Compare, Alloc>& rhs) {}
 
 template <class Key, class T, class Compare, class Alloc>
 bool operator>(const ft::rb_tree<Key, T, Compare, Alloc>& lhs,
