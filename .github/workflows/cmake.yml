@@ -21,6 +21,9 @@ jobs:
     - name: Checkout submodules
       run: git submodule init ; git submodule update
 
+    - name: Configure vcpkg
+      run: ./vcpkg/bootstrap-vcpkg.sh ; ./vcpkg/vcpkg install gtest
+
     - name: Configure CMake
       run: mkdir ${{github.workspace}}/build ; cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
