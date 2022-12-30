@@ -55,10 +55,11 @@ bool operator!=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs) {
 // less than operator template for pair
 template <class T1, class T2>
 bool operator<(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs) {
-  if (lhs.first == rhs.first) {
-    return lhs.second < rhs.second;
+  if (lhs.first < rhs.first ||
+      (lhs.first == rhs.first && lhs.second < rhs.second)) {
+    return true;
   } else {
-    return lhs.first < rhs.second;
+    return false;
   }
 }
 
