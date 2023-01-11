@@ -29,7 +29,8 @@ class vector_const_iterator {
   const_pointer ptr_;
 
   vector_const_iterator() ft_noexcept : ptr_() {}
-  value_type&            operator*() const ft_noexcept { return *ptr_; }
+  vector_const_iterator(pointer ptr) ft_noexcept : ptr_(ptr) {}
+  const value_type&      operator*() const ft_noexcept { return *ptr_; }
   const_pointer          operator->() const ft_noexcept { return ptr_; }
   vector_const_iterator& operator++() ft_noexcept {
     ++ptr_;
@@ -82,6 +83,12 @@ class vector_const_iterator {
 };
 
 template <class MyVector>
+bool operator==(const ft::vector_const_iterator<MyVector>& lhs,
+                const ft::vector_const_iterator<MyVector>& rhs) {
+  return lhs.ptr_ == rhs.ptr_;
+}
+
+template <class MyVector>
 bool operator!=(const ft::vector_const_iterator<MyVector>& lhs,
                 const ft::vector_const_iterator<MyVector>& rhs) {
   return !(lhs == rhs);
@@ -129,6 +136,7 @@ class vector_iterator : public ft::vector_const_iterator<MyVector> {
   pointer ptr_;
 
   vector_iterator() ft_noexcept : ptr_() {}
+  vector_iterator(pointer ptr) ft_noexcept : ptr_(ptr) {}
   value_type&      operator*() const ft_noexcept { return *ptr_; }
   const_pointer    operator->() const ft_noexcept { return ptr_; }
   vector_iterator& operator++() ft_noexcept {
@@ -230,8 +238,8 @@ class vector {
   typedef typename allocator_type::size_type       size_type;
   typedef typename allocator_type::difference_type difference_type;
 
-  typedef ft::vector_iterator<T>               iterator;
-  typedef ft::vector_const_iterator<T>         const_iterator;
+  typedef ft::vector_iterator<vector<T>>       iterator;
+  typedef ft::vector_const_iterator<vector<T>> const_iterator;
   typedef ft::reverse_iterator<iterator>       reverse_iterator;
   typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
@@ -313,10 +321,10 @@ class vector {
   value_type*       data() ft_noexcept { return &(this->first_); }
   const value_type* data() const ft_noexcept { return &(this->first_); }
 
-  iterator         begin() ft_noexcept { return this->first_; }
-  const_iterator   begin() const ft_noexcept { return this->first_; }
-  iterator         end() ft_noexcept { return this->last_; }
-  const_iterator   end() const ft_noexcept { return this->last_ + 1; }
+  iterator         begin() ft_noexcept { return iterator(first_); }
+  const_iterator   begin() const ft_noexcept { return const_iterator(first_); }
+  iterator         end() ft_noexcept { return iterator(last_ + 1); }
+  const_iterator   end() const ft_noexcept { return const_iterator(last_ + 1); }
   reverse_iterator rbegin() ft_noexcept {
     return reverse_iterator(this->first_, this);
   }
@@ -346,20 +354,25 @@ class vector {
            this->first_ = new_first_;
     }
   }
-  size_type capacity() const;
+  size_type capacity() const { return end_ - first_; }
 
-  void     clear() ft_noexcept;
-  iterator insert(const_iterator pos_, const value_type& value_);
+  void     clear() ft_noexcept {}
+  iterator insert(const_iterator pos_, const value_type& value_) {}
   iterator insert(const_iterator pos_, size_type count_,
-                  const value_type& value_);
+                  const value_type& value_) {}
   template <class InputIt>
-  iterator insert(const_iterator pos_, InputIt first_, InputIt last_);
-  iterator erase(iterator pos_);
-  iterator erase(iterator first_, iterator last_);
-  void     push_back(const value_type& value_);
-  void     pop_back();
-  void     resize(size_type count_, value_type value_ = value_type());
-  void     swap(vector& other);
+  iterator insert(const_iterator pos_, InputIt first_, InputIt last_) {}
+  iterator erase(iterator pos_) {}
+  iterator erase(iterator first_, iterator last_) {}
+  void     push_back(const value_type& value_) {}
+  void     pop_back() {}
+  void     resize(size_type count_, value_type value_ = value_type()) {}
+  void     swap(vector& other) {}
+
+  friend bool operator==(const ft::vector<T, Allocator>& lhs,
+                         const ft::vector<T, Allocator>& rhs);
+  friend bool operator<(const ft::vector<T, Allocator>& lhs,
+                        const ft::vector<T, Allocator>& rhs);
 
  private:
   void RangeCheck(size_type pos) {
