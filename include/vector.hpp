@@ -75,11 +75,10 @@ class vector_const_iterator {
     return *(ptr_ + offset);
   }
 
-  friend bool operator==(const vector_const_iterator<MyVector>& lhs,
-                         const vector_const_iterator<MyVector>& rhs);
-
-  friend bool operator<(const vector_const_iterator<MyVector>& lhs,
-                        const vector_const_iterator<MyVector>& rhs);
+  // friend bool operator==(const vector_const_iterator<MyVector>& lhs,
+  //  const vector_const_iterator<MyVector>& rhs);
+  // friend bool operator<(const vector_const_iterator<MyVector>& lhs,
+  // const vector_const_iterator<MyVector>& rhs);
 };
 
 template <class MyVector>
@@ -119,19 +118,15 @@ bool operator>=(const ft::vector_const_iterator<MyVector>& lhs,
 }
 
 template <class MyVector>
-class vector_iterator : public ft::vector_const_iterator<MyVector> {
+class vector_iterator {  //: public ft::vector_const_iterator<MyVector> {
  public:
-  typedef typename ft::vector_const_iterator<MyVector>::iterator_category
-      iterator_category;
-  typedef typename ft::vector_const_iterator<MyVector>::value_type value_type;
-  typedef typename ft::vector_const_iterator<MyVector>::difference_type
-                                                                difference_type;
-  typedef typename ft::vector_const_iterator<MyVector>::pointer pointer;
-  typedef
-      typename ft::vector_const_iterator<MyVector>::const_pointer const_pointer;
-  typedef typename ft::vector_const_iterator<MyVector>::reference reference;
-  typedef typename ft::vector_const_iterator<MyVector>::const_reference
-      const_reference;
+  typedef std::random_access_iterator_tag    iterator_category;
+  typedef typename MyVector::value_type      value_type;
+  typedef typename MyVector::difference_type difference_type;
+  typedef typename MyVector::pointer         pointer;
+  typedef typename MyVector::const_pointer   const_pointer;
+  typedef typename MyVector::reference       reference;
+  typedef typename MyVector::const_reference const_reference;
 
   pointer ptr_;
 
@@ -182,11 +177,10 @@ class vector_iterator : public ft::vector_const_iterator<MyVector> {
     return *(ptr_ + offset);
   }
 
-  friend bool operator==(const vector_iterator<MyVector>& lhs,
-                         const vector_iterator<MyVector>& rhs);
-
-  friend bool operator<(const vector_iterator<MyVector>& lhs,
-                        const vector_iterator<MyVector>& rhs);
+  // friend bool operator==(const vector_iterator<MyVector>& lhs,
+  //  const vector_iterator<MyVector>& rhs);
+  // friend bool operator<(const vector_iterator<MyVector>& lhs,
+  // const vector_iterator<MyVector>& rhs);
 };
 
 template <class MyVector>
@@ -254,11 +248,13 @@ class vector {
                          first_(alloc_.allocate(0)),
                          last_(first_),
                          end_(first_) {}
+
   explicit vector(const Allocator& alloc) ft_noexcept
       : alloc_(alloc),
         first_(alloc_.allocate(0)),
         last_(first_),
         end_(first_) {}
+
   explicit vector(size_type count, const value_type& value = value_type(),
                   const Allocator& alloc = Allocator())
       : alloc_(alloc),
@@ -272,10 +268,11 @@ class vector {
       : alloc_(alloc) {
     first_ = alloc_.allocate(last - first);
     last_  = first_ + (last - first);
-    std::copy(first, last, first_);
+    std::copy(first, last, iterator(first_));
   }
-  vector(const vector& other) {
-    *this = vector(other.begin(), other.end() - 1);
+  vector(const vector& other) : alloc_(other.alloc_) {
+    *this = vector(other.begin(), other.end());
+    std::cout << first_ << std::endl;
   }
   vector& operator=(const vector& rhs) {
     if (*this == rhs) {
@@ -344,14 +341,14 @@ class vector {
   }
   size_type max_size() const ft_noexcept { return allocator_type::max_size(); }
   void      reserve(size_type new_cap) {
-         if (new_cap > this->size()) {
-           pointer new_first_ = alloc_.allocate(new_cap, this->first_);
-           std::copy(this->begin(), this->end(), iterator(new_first_, this));
+    if (new_cap > this->size()) {
+      pointer new_first_ = alloc_.allocate(new_cap, this->first_);
+      std::copy(this->begin(), this->end(), iterator(new_first_, this));
 
-           this->last_ = new_first_ + this->size;
-           this->end_  = new_first_ + (new_cap * sizeof(size_type));
-           alloc_.deallocate(this->first_);
-           this->first_ = new_first_;
+      this->last_ = new_first_ + this->size;
+      this->end_  = new_first_ + (new_cap * sizeof(size_type));
+      alloc_.deallocate(this->first_);
+      this->first_ = new_first_;
     }
   }
   size_type capacity() const { return end_ - first_; }
@@ -368,11 +365,6 @@ class vector {
   void     pop_back() {}
   void     resize(size_type count_, value_type value_ = value_type()) {}
   void     swap(vector& other) {}
-
-  friend bool operator==(const ft::vector<T, Allocator>& lhs,
-                         const ft::vector<T, Allocator>& rhs);
-  friend bool operator<(const ft::vector<T, Allocator>& lhs,
-                        const ft::vector<T, Allocator>& rhs);
 
  private:
   void RangeCheck(size_type pos) {

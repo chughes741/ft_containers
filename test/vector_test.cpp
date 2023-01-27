@@ -3,7 +3,6 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
 #include <memory>
 #include <vector>
 
@@ -26,7 +25,7 @@ TEST(VectorConstructors, SizeConstructor) {
   EXPECT_GT(v2.size(), 9);
 
   std::allocator<int> alloc;
-  ft::vector<int> v3((ft::vector<int>::size_type)10, 69, alloc);
+  ft::vector<int>     v3((ft::vector<int>::size_type)10, 69, alloc);
   EXPECT_GT(v3.size(), 9);
 }
 
@@ -36,7 +35,7 @@ TEST(VectorConstructors, RangeConstructor) {
   EXPECT_EQ(v1.size(), v2.size());  // v1 == v2 ?
 
   std::allocator<int> alloc;
-  ft::vector<int> v3(v1.begin(), v1.end(), alloc);
+  ft::vector<int>     v3(v1.begin(), v1.end(), alloc);
   EXPECT_EQ(v1.size(), v3.size());  // v1 == v2 ?
 }
 
@@ -61,5 +60,21 @@ TEST(VectorOperatorOverloads, CopyAssignment) {
 }
 
 TEST(VectorAssign, Assign) {
-  
+  ft::vector<int> v1(100);
+  v1.assign((ft::vector<int>::size_type)100, 69);
+  EXPECT_GE(v1.size(), 100);
+
+  ft::vector<int> v2;
+  v2.assign((ft::vector<int>::size_type)100, 69);
+  EXPECT_EQ(v1, v2);
+}
+
+TEST(VectorAssign, AssignRange) {
+  ft::vector<int> v1(3);
+  v1[0] = 1;
+  v1[1] = 2;
+  v1[2] = 3;
+  ft::vector<int> v2;
+  v2.assign(v1.begin(), v1.end());
+  EXPECT_EQ(v1, v2);
 }
