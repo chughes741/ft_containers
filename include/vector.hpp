@@ -273,7 +273,6 @@ class vector {
   }
   vector(const vector& other) : alloc_(other.alloc_) {
     *this = vector(other.begin(), other.end());
-    std::cout << first_ << std::endl;
   }
   vector& operator=(const vector& rhs) {
     if (*this == rhs) {
@@ -300,11 +299,11 @@ class vector {
 
   value_type& at(size_type position) {
     RangeCheck(position);
-    return this[position];
+    return *(first_ + position);
   }
   const value_type& at(size_type position) const {
     RangeCheck(position);
-    return this[position];
+    return *(first_ + position);
   }
   value_type& operator[](size_type position) {
     return *(this->first_ + position);
@@ -370,9 +369,11 @@ class vector {
  private:
   void RangeCheck(size_type pos) {
     if (pos > this->size()) {
-      std::string message = " pos (which is " + pos +
-                            ") >= this->size() (which is " + this->size() +
-                            ")\n";
+      std::string message = " pos (piece of shit)";
+      // message.append(pos);
+      // message.append(") >= this->size() (which is ");
+      // message.append(this->size());
+      // message.append("\n");
       throw std::out_of_range(message);
     }
   }
