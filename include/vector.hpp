@@ -7,6 +7,7 @@
 #include <memory>    // std::uninitialized_fill
 #include <stdexcept>
 #include <string>
+#include <iostream> // RBS
 
 #include "algorithm.hpp"
 #include "iterator.hpp"
@@ -258,7 +259,7 @@ class vector {
   explicit vector(size_type count, const value_type& value = value_type(),
                   const Allocator& alloc = Allocator())
       : alloc_(alloc),
-        first_(alloc_.allocate(count * sizeof(value_type))),
+        first_(alloc_.allocate(count)),
         last_(first_ + count * sizeof(value_type)),
         end_(last_) {
     std::uninitialized_fill(this->begin(), this->end(), value_type());
@@ -337,7 +338,7 @@ class vector {
 
   bool empty() const ft_noexcept { return this->size() == 0 ? true : false; }
   size_type size() const ft_noexcept {
-    return (this->last_ - this->first_) / sizeof(size_type);
+    return static_cast<size_type>(this->last_ - this->first_);
   }
   size_type max_size() const ft_noexcept { return allocator_type::max_size(); }
   void      reserve(size_type new_cap) {
