@@ -488,9 +488,9 @@ class vector {
 
   // Removes the element at pos
   iterator erase(iterator pos) {
-    alloc_.destroy(pos);
-    alloc_.construct(pos);
-    for (iterator it = pos; it + 1 != last_; ++it) {
+    alloc_.destroy(&pos);
+    alloc_.construct(&pos);
+    for (iterator it = pos; it + 1 != iterator(last_); ++it) {
       *it = *(it + 1);
     }
     alloc_.destroy(last_);
