@@ -3,11 +3,11 @@
 #ifndef VECTOR_HPP_
 #define VECTOR_HPP_
 
+#include <iostream>  // RBS
 #include <iterator>  // std::iterator
 #include <memory>    // std::uninitialized_fill
 #include <stdexcept>
 #include <string>
-#include <iostream> // RBS
 
 #include "algorithm.hpp"
 #include "iterator.hpp"
@@ -262,8 +262,11 @@ class vector {
         first_(alloc_.allocate(count)),
         last_(first_ + count * sizeof(value_type)),
         end_(last_) {
-    std::uninitialized_fill(this->begin(), this->end(), value_type());
+    for (size_type i = 0; i < count; ++i) {
+      alloc_.construct(first_ + i, value);
+    }
   }
+
   template <class InputIt>
   vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
       : alloc_(alloc) {
@@ -278,14 +281,14 @@ class vector {
     if (*this == rhs) {
       return *this;
     }
-    if (this->capacity() < rhs.capacity()) {
-      this->resize(rhs.capacity());
-    }
-    std::fill(this->begin(), this->end(), value_type());
-    std::copy(rhs.begin(), rhs.end(), this->begin());
     return *this;
   }
-  ~vector() ft_noexcept { alloc_.deallocate(first_, last_ - first_); }
+  ~vector() ft_noexcept {
+    for (size_type i = 0; i < this->size(); ++i) {
+      alloc_.destroy(first_ + i);
+    }
+    alloc_.deallocate(first_, last_ - first_);
+  }
   void assign(size_type count, const value_type& value) {
     this->resize(count);
     std::fill(this->begin(), this->end(), value);
@@ -341,14 +344,14 @@ class vector {
   }
   size_type max_size() const ft_noexcept { return allocator_type::max_size(); }
   void      reserve(size_type new_cap) {
-    if (new_cap > this->size()) {
-      pointer new_first_ = alloc_.allocate(new_cap, this->first_);
-      std::copy(this->begin(), this->end(), iterator(new_first_, this));
+         if (new_cap > this->size()) {
+           pointer new_first_ = alloc_.allocate(new_cap, this->first_);
+           std::copy(this->begin(), this->end(), iterator(new_first_, this));
 
-      this->last_ = new_first_ + this->size;
-      this->end_  = new_first_ + (new_cap * sizeof(size_type));
-      alloc_.deallocate(this->first_);
-      this->first_ = new_first_;
+           this->last_ = new_first_ + this->size;
+           this->end_  = new_first_ + (new_cap * sizeof(size_type));
+           alloc_.deallocate(this->first_);
+           this->first_ = new_first_;
     }
   }
   size_type capacity() const { return end_ - first_; }
