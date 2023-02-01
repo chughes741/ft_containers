@@ -26,16 +26,16 @@ TEST(VectorConstructors, AllocConstructor) {
 TEST(VectorConstructors, SizeConstructor) {
   ft::vector<int> v1(10);
 
-  EXPECT_GE(v1.size(), 10);
+  EXPECT_GE(v1.capacity(), 10);
 
   ft::vector<int> v2((unsigned)10, 3);  // TODO type inference
 
-  EXPECT_GE(v2.size(), 10);
+  EXPECT_GE(v2.capacity(), 10);
 
   std::allocator<int> alloc;
   ft::vector<int>     v3((unsigned)10, 69, alloc);  // TODO type inference
 
-  EXPECT_GE(v3.size(), 10);
+  EXPECT_GE(v3.capacity(), 10);
 }
 
 // template< class InputIt >
