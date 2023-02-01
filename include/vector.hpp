@@ -319,14 +319,14 @@ class vector {
 
   // Replaces the contents with count copies of value value
   void assign(size_type count, const value_type& value) {
-    resize(count);
-    std::fill(begin(), end(), value);
+    clear();
+    Reallocate(count, value);
   }
 
   // Replaces the contents with copies of those in the range [first, last)
   template <class InputIt>
   void assign(InputIt first, InputIt last) {
-    resize((first - last));
+    resize(first - last);
     std::copy(first, last, begin());
   }
 
@@ -552,8 +552,7 @@ class vector {
   // Reallocated the vectors array
   void Reallocate(size_type size, value_type value = value_type()) {
     pointer new_first_ = alloc_.allocate(size, first_);
-    pointer new_last_ =
-        new_first_ + (this->size() < size ? this->size() : size);
+    pointer new_last_ = new_first_ + size;
     pointer new_end_ = new_first_ + size;
 
     for (size_type i = 0; i < size; ++i) {
