@@ -318,7 +318,7 @@ class vector {
   const value_type& front() const { return *(this->first_); }
   value_type&       back() { return *(this->last_); }
   const value_type& back() const { return *(this->last_); }
-  value_type*       data() ft_noexcept { return &(this->first_); }
+  value_type*       data() ft_noexcept { return this->first_; }
   const value_type* data() const ft_noexcept { return &(this->first_); }
 
   iterator         begin() ft_noexcept { return iterator(first_); }
@@ -342,7 +342,7 @@ class vector {
   size_type size() const ft_noexcept {
     return static_cast<size_type>(this->last_ - this->first_);
   }
-  size_type max_size() const ft_noexcept { return allocator_type::max_size(); }
+  size_type max_size() const ft_noexcept { return alloc_.max_size(); }
   void      reserve(size_type new_cap) {
          if (new_cap > this->size()) {
            pointer new_first_ = alloc_.allocate(new_cap, this->first_);

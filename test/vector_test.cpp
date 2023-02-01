@@ -107,69 +107,103 @@ TEST(VectorElementAccess, At) {  // TODO
 }
 
 // reference operator[]( size_type pos )
-TEST(VectorElementAccess, AtOperator) {  // TODO
-  ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+TEST(VectorElementAccess, AtOperator) {
+  ft::vector<int> v1(10);
+  v1[1] = 1;
+  EXPECT_EQ(v1[0], 0);
+  EXPECT_EQ(v1[1], 1);
 }
 
 // reference front()
-TEST(VectorElementAccess, Front) {  // TODO
-  ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+TEST(VectorElementAccess, Front) {
+  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  v1[0] = 1;
+  EXPECT_EQ(v1.front(), 1);
 }
 
 // reference back()
-TEST(VectorElementAccess, Back) {  // TODO
-  ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+TEST(VectorElementAccess, Back) {
+  ft::vector<int> v1((unsigned)3, 1);
+  v1[2] = 2;
+  EXPECT_EQ(v1.back(), 2);
 }
 
 // T* data()
-TEST(VectorElementAccess, Data) {  // TODO
-  ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+TEST(VectorElementAccess, Data) {
+  ft::vector<int> v1(10);
+  // EXPECT_EQ(v1.data(), v1.begin()); // TODO how to check this?
 }
 
 // iterator begin()
-TEST(VectorIterator, Begin) {  // TODO
-  ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+TEST(VectorIterator, Begin) {
+  ft::vector<int> v1(10);
+  v1[1] = 1;
+  v1[2] = 2;
+  v1[3] = 3;
+  EXPECT_EQ(*(v1.begin()), 0);
+  EXPECT_EQ(*(v1.begin() + 1), 1);
+  EXPECT_EQ(*(v1.begin() + 2), 2);
+  EXPECT_EQ(*(v1.begin() + 3), 3);
 }
 
 // iterator end()
-TEST(VectorIterator, End) {  // TODO
+TEST(VectorIterator, End) {
   ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+  EXPECT_EQ(v1.begin() + 1, v1.end());
+
+  ft::vector<int> v2(3);
+  v2[0] = 1;
+  v2[1] = 2;
+  v2[2] = 3;
+  EXPECT_EQ(v2.begin() + 4, v2.end());
 }
 
 // reverse_iterator rbegin()
 TEST(VectorIterator, RBegin) {  // TODO
   ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+  // EXPECT_EQ(v1.rbegin(), v1.rend());
+
+  // ft::vector<int> v2(3);
+  // v2[0] = 1;
+  // v2[1] = 2;
+  // v2[2] = 3;
+  // EXPECT_EQ(v2.rbegin() + 4, v2.rend());
 }
 
 // reverse_iterator rend()
 TEST(VectorIterator, REnd) {  // TODO
   ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+  // EXPECT_EQ(v1.rbegin(), v1.rend());
+
+  // ft::vector<int> v2(3);
+  // v2[0] = 1;
+  // v2[1] = 2;
+  // v2[2] = 3;
+  // EXPECT_EQ(v2.rbegin() + 4, v2.rend());
 }
 
 // bool empty() const
-TEST(VectorCapacity, Empty) {  // TODO
+TEST(VectorCapacity, Empty) {
   ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+  EXPECT_TRUE(v1.empty());
+  v1.push_back(1);
+  v1.pop_back();
+  EXPECT_TRUE(v1.empty());
 }
 
 // size_type size() const
-TEST(VectorCapacity, Size) {  // TODO
-  ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+TEST(VectorCapacity, Size) {
+  ft::vector<int> v1((unsigned)100, 1);
+  EXPECT_EQ(v1.size(), 100);
+  v1.push_back(3);
+  EXPECT_EQ(v1.size(), 101);
 }
 
 // size_type max_size() const
-TEST(VectorCapacity, MaxSize) {  // TODO
+TEST(VectorCapacity, MaxSize) {
   ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+  std::vector<int> v2;
+  EXPECT_EQ(v1.max_size(), v2.max_size());
 }
 
 // void reserve( size_type new_cap )
