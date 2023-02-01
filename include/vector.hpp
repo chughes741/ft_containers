@@ -277,7 +277,7 @@ class vector {
   explicit vector(size_type count, const value_type& value = value_type(),
                   const Allocator& alloc = Allocator())
       : alloc_(alloc), first_(alloc_.allocate(0)), last_(first_), end_(last_) {
-    Reallocate(SmartSize(count), value);
+    Reallocate(SmartSize(count + 1), value);
   }
 
   // Range constructor
