@@ -462,31 +462,60 @@ class vector {
   }
 
   // Inserts value before pos
-  iterator insert(const_iterator pos, const value_type& value) {
-    Reallocate(size() + 1, SmartSize(size() + 1));
-    for (iterator it = last_; it >= pos; --it) {
-      *(it + 1) = *it;
+  // iterator insert(const_iterator pos, const value_type& value) {
+  iterator insert(iterator pos, const value_type& value) {
+    difference_type pos_ = pos - first_;
+    reserve(size() + 1);
+
+    pointer new_first_ = first_ + pos_;
+    pointer new_last_  = last_;
+
+    for (; new_last_ > new_first_; --new_last_) {
+      alloc_.construct(new_last_ + 1, *new_last_);
+      alloc_.destroy(new_last_);
     }
-    pos = value;
-    return pos;
+    alloc_.construct(new_first_, value);
+    return iterator(first_ + pos_);
   }
 
   // Inserts count copies of the value before pos
-  iterator insert(const_iterator pos, size_type count,
-                  const value_type& value) {
-    for (; count; --count) {
-      insert(pos, value);
+  // iterator insert(const_iterator pos, size_type count, const value_type
+  // &value) {
+  iterator insert(iterator pos, size_type count, const value_type& value) {
+    difference_type pos_ = pos - first_;
+    reserve(size() + count);
+
+    pointer new_first_ = first_ + pos_;
+    pointer new_last_  = last_;
+
+    for (; new_last_ > new_first_; --new_last_) {
+      *new_last_ = *(new_last_ + count);
+      alloc_.destroy(new_last_);
     }
-    return pos;
+    for (size_type count_ = 0; count_ < count; ++count_) {
+      alloc_.construct(new_first_ + count_, value);
+    }
+    return iterator(first_ + pos_);
   }
 
   // Inserts elements from range [first, last) before pos
   template <class InputIt>
-  iterator insert(const_iterator pos, InputIt first, InputIt last) {
-    for (iterator it = first, pos_ = pos; it != last; ++it, ++pos_) {
-      insert(pos_, *it);
+  // iterator insert(const_iterator pos, InputIt first, InputIt last) {
+  iterator insert(iterator pos, InputIt first, InputIt last) {
+    difference_type pos_ = pos - first_;
+    reserve(size() + (last - first));
+
+    pointer new_first_ = first_ + pos_;
+    pointer new_last_  = last_;
+
+    for (; new_last_ > new_first_; --new_last_) {
+      *new_last_ = *(new_last_ + (last - first));
+      alloc_.destroy(new_last_);
     }
-    return pos;
+    for (size_type count_ = 0; count_ < (last - first); ++count_) {
+      alloc_.construct(new_first_ + count_, *(first + count_));
+    }
+    return iterator(first_ + pos_);
   }
 
   // Removes the element at pos
@@ -552,7 +581,8 @@ class vector {
   };
 
   // Reallocated the vectors array
-  void Reallocate(size_type size, size_type cap = 0, value_type value = value_type()) {
+  void Reallocate(size_type size, size_type cap = 0,
+                  value_type value = value_type()) {
     pointer new_first_ = alloc_.allocate(size, first_);
     pointer new_last_  = new_first_ + size;
     pointer new_end_   = new_first_ + (cap > size ? cap : size);

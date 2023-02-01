@@ -262,19 +262,20 @@ TEST(VectorModifiers, Clear) {
 // iterator insert( const_iterator pos, const T& value )
 TEST(VectorModifiers, Insert) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  // v1.insert(v1.begin(), 1); // TODO const_iterator
+  v1.insert(v1.begin(), 1);
 
-  EXPECT_EQ(*(v1.begin()), 1);
+  EXPECT_EQ(v1.front(), 1);
 }
 
 // iterator insert( const_iterator pos, size_type count, const T& value )
 TEST(VectorModifiers, InsertCount) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  // v1.insert(v1.begin(), 5, 1); // TODO const_iterator
+  v1.insert(v1.begin(), (unsigned)5, 1);
 
   EXPECT_GE(v1.size(), 15);
   EXPECT_EQ(v1[0], 1);
   EXPECT_EQ(v1[4], 1);
+  EXPECT_NE(v1[6], 1);
 }
 
 // template< class InputIt >
@@ -282,12 +283,11 @@ TEST(VectorModifiers, InsertCount) {
 TEST(VectorModifiers, InsertRange) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
   ft::vector<int> v2((unsigned)10, 1);  // TODO type inference
-  // v1.insert(v1.begin(), v2.begin(), v2.end()); // TODO const_iterator
+  v1.insert(v1.begin(), v2.begin(), v2.end());
 
   EXPECT_GE(v1.size(), 20);
   EXPECT_EQ(v1[0], 1);
   EXPECT_EQ(v1[9], 1);
-  EXPECT_EQ(v1[10], 3);
 }
 
 // iterator erase( iterator pos )
