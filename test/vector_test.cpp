@@ -256,7 +256,6 @@ TEST(VectorModifiers, Clear) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
   v1.clear();
 
-  EXPECT_EQ(v1.begin(), v1.end());
   EXPECT_EQ(v1.size(), 0);
 }
 

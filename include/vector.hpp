@@ -371,7 +371,7 @@ class vector {
 
   // Returns value of the last element in the array
   value_type& back() {
-    return *(this->last_);
+    return *(last_ - 1);
   }
 
   // Returns value of the last element in the array
