@@ -123,7 +123,7 @@ TEST(VectorElementAccess, Front) {
 
 // reference back()
 TEST(VectorElementAccess, Back) {
-  ft::vector<int> v1((unsigned)3, 1);
+  ft::vector<int> v1((unsigned)3, 1);  // TODO type inference
   v1[2] = 2;
   EXPECT_EQ(v1.back(), 2);
 }
@@ -193,7 +193,7 @@ TEST(VectorCapacity, Empty) {
 
 // size_type size() const
 TEST(VectorCapacity, Size) {
-  ft::vector<int> v1((unsigned)100, 1);
+  ft::vector<int> v1((unsigned)100, 1);  // TODO type inference
   EXPECT_EQ(v1.size(), 100);
   v1.push_back(3);
   EXPECT_EQ(v1.size(), 101);
@@ -201,27 +201,34 @@ TEST(VectorCapacity, Size) {
 
 // size_type max_size() const
 TEST(VectorCapacity, MaxSize) {
-  ft::vector<int> v1;
+  ft::vector<int>  v1;
   std::vector<int> v2;
   EXPECT_EQ(v1.max_size(), v2.max_size());
 }
 
 // void reserve( size_type new_cap )
-TEST(VectorCapacity, Reserve) {  // TODO
+TEST(VectorCapacity, Reserve) {
   ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+  v1.reserve(69);
+  EXPECT_EQ(v1.capacity(), 69);
+  v1.reserve(1);
+  EXPECT_EQ(v1.capacity(), 69);
 }
 
 // size_type capacity() const
-TEST(VectorCapacity, Capacity) {  // TODO
-  ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+TEST(VectorCapacity, Capacity) {
+  ft::vector<int> v1(10);
+  EXPECT_GE(v1.capacity(), 10);
+  v1.reserve(69);
+  EXPECT_EQ(v1.capacity(), 69);
 }
 
 // void clear()
-TEST(VectorModifiers, Clear) {  // TODO
-  ft::vector<int> v1;
-  EXPECT_EQ(0, 0);
+TEST(VectorModifiers, Clear) {
+  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  v1.clear();
+  EXPECT_EQ(v1.begin(), v1.end());
+  EXPECT_EQ(v1.size(), 0);
 }
 
 // iterator insert( const_iterator pos, const T& value )

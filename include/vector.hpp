@@ -345,13 +345,13 @@ class vector {
   size_type max_size() const ft_noexcept { return alloc_.max_size(); }
   void      reserve(size_type new_cap) {
          if (new_cap > this->size()) {
-           pointer new_first_ = alloc_.allocate(new_cap, this->first_);
-           std::copy(this->begin(), this->end(), iterator(new_first_, this));
+          //  pointer new_first_ = alloc_.allocate(new_cap, this->first_);
+          //  std::copy(this->begin(), this->end(), iterator(new_first_, this));
 
-           this->last_ = new_first_ + this->size;
-           this->end_  = new_first_ + (new_cap * sizeof(size_type));
-           alloc_.deallocate(this->first_);
-           this->first_ = new_first_;
+          //  this->last_ = new_first_ + this->size;
+          //  this->end_  = new_first_ + (new_cap * sizeof(size_type));
+          //  alloc_.deallocate(this->first_);
+          //  this->first_ = new_first_;
     }
   }
   size_type capacity() const { return end_ - first_; }
