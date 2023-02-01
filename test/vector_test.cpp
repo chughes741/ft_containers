@@ -120,6 +120,7 @@ TEST(VectorElementAccess, At) {  // TODO
 
   EXPECT_EQ(v1.at(0), 0);
   EXPECT_EQ(v1.at(1), 1);
+  EXPECT_THROW(v1.at(100), std::out_of_range);
 }
 
 // reference operator[]( size_type pos )
