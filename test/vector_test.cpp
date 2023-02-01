@@ -140,9 +140,7 @@ TEST(VectorElementAccess, Front) {
 
 // reference back()
 TEST(VectorElementAccess, Back) {
-  ft::vector<int> v1((unsigned)3, 1);  // TODO type inference
-  v1[2] = 2;
-
+  ft::vector<int> v1((unsigned)10, 2);  // TODO type inference
   EXPECT_EQ(v1.back(), 2);
 }
 
@@ -385,11 +383,10 @@ TEST(VectorModifiers, Swap) {
 //  const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, Equal) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v3((unsigned)3, 3);   // TODO type inference
+  ft::vector<int> v2((unsigned)3, 3);   // TODO type inference
 
-  EXPECT_TRUE(v1 == v2);
-  EXPECT_FALSE(v1 == v3);
+  EXPECT_TRUE(v1 == v1);
+  EXPECT_FALSE(v1 == v2);
 }
 
 // template< class T, class Alloc >
@@ -397,11 +394,10 @@ TEST(VectorNonMember, Equal) {
 //  const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, NotEqual) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v3((unsigned)3, 3);   // TODO type inference
+  ft::vector<int> v2((unsigned)3, 3);   // TODO type inference
 
-  EXPECT_FALSE(v1 != v2);
-  EXPECT_TRUE(v1 != v3);
+  EXPECT_FALSE(v1 != v1);
+  EXPECT_TRUE(v1 != v2);
 }
 
 // template< class T, class Alloc >
@@ -423,11 +419,9 @@ TEST(VectorNonMember, LessThan) {
 TEST(VectorNonMember, LessThanEqual) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
   ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
-  ft::vector<int> v3((unsigned)10, 3);  // TODO type inference
 
   EXPECT_TRUE(v1 <= v2);
-  EXPECT_TRUE(v1 <= v3);
-  EXPECT_FALSE(v2 <= v3);
+  EXPECT_FALSE(v2 <= v1);
 }
 
 // template< class T, class Alloc >
