@@ -276,27 +276,26 @@ class vector {
   // Constructor with size and default value
   explicit vector(size_type count, const value_type& value = value_type(),
                   const Allocator& alloc = Allocator())
-      : alloc_(alloc),
-        first_(alloc_.allocate(count)),
-        last_(first_ + count * sizeof(value_type)),
-        end_(last_) {
-    for (size_type i = 0; i < count; ++i) {
-      alloc_.construct(first_ + i, value);
-    }
+      : alloc_(alloc), first_(alloc_.allocate(0)), last_(first_), end_(last_) {
+    Reallocate(SmartSize(count), value);
   }
 
   // Range constructor
   template <class InputIt>
   vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
       : alloc_(alloc) {
-    first_ = alloc_.allocate(last - first);
+    first_ = alloc_.allocate(SmartSize(last - first));
     last_  = first_ + (last - first);
+    end_   = first_ + SmartSize(last - first);
     std::copy(first, last, iterator(first_));
   }
 
   // Copy constructor
   vector(const vector& other) : alloc_(other.alloc_) {
-    *this = vector(other.begin(), other.end());
+    first_ = alloc_.allocate(SmartSize(other.last_ - other.first_));
+    last_  = first_ + (other.last_ - other.first_);
+    end_   = first_ + SmartSize(other.last_ - other.first_);
+    std::copy(other.begin(), other.end(), begin());
   }
 
   // Copy assignment operator overload
@@ -304,12 +303,15 @@ class vector {
     if (*this == rhs) {
       return *this;
     }
+    clear();
+    Reallocate(rhs.size());
+    std::copy(rhs.begin(), rhs.end(), begin());
     return *this;
   }
 
   // Destructor
   ~vector() ft_noexcept {
-    for (size_type i = 0; i < this->size(); ++i) {
+    for (size_type i = 0; i < (end_ - last_); ++i) {
       alloc_.destroy(first_ + i);
     }
     alloc_.deallocate(first_, last_ - first_);
@@ -317,15 +319,15 @@ class vector {
 
   // Replaces the contents with count copies of value value
   void assign(size_type count, const value_type& value) {
-    this->resize(count);
-    std::fill(this->begin(), this->end(), value);
+    resize(count);
+    std::fill(begin(), end(), value);
   }
 
   // Replaces the contents with copies of those in the range [first, last)
   template <class InputIt>
   void assign(InputIt first, InputIt last) {
-    this->resize((first - last) / sizeof(size_type));
-    std::copy(first, last, this->begin());
+    resize((first - last));
+    std::copy(first, last, begin());
   }
 
   // Returns copy of the allocator<T>
@@ -341,8 +343,7 @@ class vector {
 
   // Returns value of the element at(index), checks range
   const value_type& at(size_type position) const {
-    RangeCheck(position);
-    return *(first_ + position);
+    return at(position);
   }
 
   // Returns value of the element at [index], does not check range
@@ -362,7 +363,7 @@ class vector {
 
   // Returns value of the first element in the array
   const value_type& front() const {
-    return *(this->first_);
+    return front();
   }
 
   // Returns value of the last element in the array
@@ -372,7 +373,7 @@ class vector {
 
   // Returns value of the last element in the array
   const value_type& back() const {
-    return *(this->last_);
+    return back();
   }
 
   // Returns a raw pointer to the start of the underlying array
@@ -443,13 +444,7 @@ class vector {
   // Increases the reserved capacity of the array
   void reserve(size_type new_cap) {
     if (new_cap > this->size()) {
-      //  pointer new_first_ = alloc_.allocate(new_cap, this->first_);
-      //  std::copy(this->begin(), this->end(), iterator(new_first_, this));
-
-      //  this->last_ = new_first_ + this->size;
-      //  this->end_  = new_first_ + (new_cap * sizeof(size_type));
-      //  alloc_.deallocate(this->first_);
-      //  this->first_ = new_first_;
+      Reallocate(new_cap);
     }
   }
 
@@ -465,16 +460,30 @@ class vector {
 
   // Inserts value before pos
   iterator insert(const_iterator pos, const value_type& value) {
+    Reallocate(size() + 1);
+    for (iterator it = last_; it >= pos; --it) {
+      *(it + 1) = *it;
+    }
+    pos = value;
+    return pos ;
   }
 
   // Inserts count copies of the value before pos
   iterator insert(const_iterator pos, size_type count,
                   const value_type& value) {
+    for (; count; --count) {
+      insert(pos, value);
+    }
+    return pos;
   }
 
   // Inserts elements from range [first, last) before pos
   template <class InputIt>
   iterator insert(const_iterator pos, InputIt first, InputIt last) {
+    for (iterator it = first, pos_ = pos ; it != last; ++it, ++pos_) {
+      insert(pos_, *it);
+    }
+    return pos;
   }
 
   // Removes the element at pos
