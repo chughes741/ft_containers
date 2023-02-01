@@ -326,8 +326,11 @@ class vector {
   // Replaces the contents with copies of those in the range [first, last)
   template <class InputIt>
   void assign(InputIt first, InputIt last) {
-    resize(first - last);
-    std::copy(first, last, begin());
+    clear();
+    Reallocate(last - first - 1);
+    for (size_type i = 0; i < last - first; ++i) {
+      first_[i] = first[i];
+    }
   }
 
   // Returns copy of the allocator<T>
@@ -465,7 +468,7 @@ class vector {
       *(it + 1) = *it;
     }
     pos = value;
-    return pos ;
+    return pos;
   }
 
   // Inserts count copies of the value before pos
@@ -480,7 +483,7 @@ class vector {
   // Inserts elements from range [first, last) before pos
   template <class InputIt>
   iterator insert(const_iterator pos, InputIt first, InputIt last) {
-    for (iterator it = first, pos_ = pos ; it != last; ++it, ++pos_) {
+    for (iterator it = first, pos_ = pos; it != last; ++it, ++pos_) {
       insert(pos_, *it);
     }
     return pos;
@@ -552,8 +555,8 @@ class vector {
   // Reallocated the vectors array
   void Reallocate(size_type size, value_type value = value_type()) {
     pointer new_first_ = alloc_.allocate(size, first_);
-    pointer new_last_ = new_first_ + size;
-    pointer new_end_ = new_first_ + size;
+    pointer new_last_  = new_first_ + size;
+    pointer new_end_   = new_first_ + size;
 
     for (size_type i = 0; i < size; ++i) {
       alloc_.construct(new_first_ + i, value);
