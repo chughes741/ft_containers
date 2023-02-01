@@ -491,8 +491,6 @@ class vector {
 
   // Removes the element at pos
   iterator erase(iterator pos) {
-    alloc_.destroy(&pos);
-    alloc_.construct(&pos);
     for (iterator it = pos; it + 1 != iterator(last_); ++it) {
       *it = *(it + 1);
     }
@@ -503,20 +501,20 @@ class vector {
 
   //  Removes the elements in the range [first, last)
   iterator erase(iterator first, iterator last) {
-    for (iterator it = first; first != last; ++it) {
-      erase(it);
+    for (iterator it = first; it != last; ++it) {
+      erase(first);
     }
     return first + 1;
   }
 
   // Appends the given element value to the end of the container
   void push_back(const value_type& value) {
-    Reallocate(size(), SmartSize(size() + 1));
-    *last_ = value;
+    Reallocate(size() + 1, SmartSize(size() + 1), value);
   }
 
   // Removes the last element of the container
   void pop_back() {
+    if (size() == 0) return;
     Reallocate(size() - 1, SmartSize(size() - 1));
   }
 

@@ -297,7 +297,7 @@ TEST(VectorModifiers, Erase) {
   v1.push_back(1);
   v1.push_back(2);
   v1.push_back(3);
-  // v1.erase(v1.begin()); // SIGSEGV
+  v1.erase(v1.begin());
 
   EXPECT_EQ(v1[0], 1);
   EXPECT_EQ(v1[1], 2);
@@ -307,7 +307,7 @@ TEST(VectorModifiers, Erase) {
 // iterator erase( iterator first, iterator last )
 TEST(VectorModifiers, EraseRange) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  // v1.erase(v1.begin(), v1.end()); // SIGSEGV
+  v1.erase(v1.begin(), v1.end() - 1);
 
   EXPECT_EQ(v1.size(), 0);
 }
@@ -318,10 +318,14 @@ TEST(VectorModifiers, PushBack) {
   v1.push_back(0);
   v1.push_back(1);
   v1.push_back(2);
+  v1.push_back(3);
+  v1.push_back(4);
 
   EXPECT_EQ(v1[0], 0);
   EXPECT_EQ(v1[1], 1);
   EXPECT_EQ(v1[2], 2);
+  EXPECT_EQ(v1[3], 3);
+  EXPECT_EQ(v1[4], 4);
 }
 
 // void pop_back()
