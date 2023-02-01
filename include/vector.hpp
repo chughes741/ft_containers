@@ -326,21 +326,21 @@ class vector {
   iterator         end() ft_noexcept { return iterator(last_ + 1); }
   const_iterator   end() const ft_noexcept { return const_iterator(last_ + 1); }
   reverse_iterator rbegin() ft_noexcept {
-    return reverse_iterator(this->first_, this);
+    return reverse_iterator(this->last_, this);
   }
   const_reverse_iterator rbegin() const ft_noexcept {
-    return const_reverse_iterator(this->first_, this);
+    return const_reverse_iterator(this->last_, this);
   }
   reverse_iterator rend() ft_noexcept {
-    return reverse_iterator(this->last_ + 1, this);
+    return reverse_iterator(this->first_ - 1, this);
   }
   const_reverse_iterator rend() const ft_noexcept {
-    return const_reverse_iterator(this->last + 1, this);
+    return const_reverse_iterator(this->first_ - 1, this);
   }
 
   bool empty() const ft_noexcept { return this->size() == 0 ? true : false; }
   size_type size() const ft_noexcept {
-    return static_cast<size_type>(this->last_ - this->first_);
+    return (this->last_ - this->first_);
   }
   size_type max_size() const ft_noexcept { return alloc_.max_size(); }
   void      reserve(size_type new_cap) {
