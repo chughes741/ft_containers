@@ -277,7 +277,7 @@ class vector {
   explicit vector(size_type count, const value_type& value = value_type(),
                   const Allocator& alloc = Allocator())
       : alloc_(alloc), first_(alloc_.allocate(0)), last_(first_), end_(last_) {
-    Reallocate(SmartSize(count + 1), value);
+    Reallocate(count, SmartSize(count), value);
   }
 
   // Range constructor
@@ -320,14 +320,14 @@ class vector {
   // Replaces the contents with count copies of value value
   void assign(size_type count, const value_type& value) {
     clear();
-    Reallocate(count, value);
+    Reallocate(count, SmartSize(count), value);
   }
 
   // Replaces the contents with copies of those in the range [first, last)
   template <class InputIt>
   void assign(InputIt first, InputIt last) {
     clear();
-    Reallocate(last - first - 1);
+    Reallocate(last - first - 1, SmartSize(last - first - 1));
     for (size_type i = 0; i < last - first; ++i) {
       first_[i] = first[i];
     }
@@ -463,7 +463,7 @@ class vector {
 
   // Inserts value before pos
   iterator insert(const_iterator pos, const value_type& value) {
-    Reallocate(size() + 1);
+    Reallocate(size() + 1, SmartSize(size() + 1));
     for (iterator it = last_; it >= pos; --it) {
       *(it + 1) = *it;
     }
@@ -511,18 +511,19 @@ class vector {
 
   // Appends the given element value to the end of the container
   void push_back(const value_type& value) {
-    Reallocate(SmartSize(this->size() + 1));
+    Reallocate(size(), SmartSize(size() + 1));
     *last_ = value;
   }
 
   // Removes the last element of the container
   void pop_back() {
-    Reallocate(SmartSize(this->size() - 1));
+    Reallocate(size() - 1, SmartSize(size() - 1));
   }
 
   // Resizes the container to contain count elements
   void resize(size_type count, value_type value = value_type()) {
-    Reallocate(count, value);
+    clear();
+    Reallocate(count, SmartSize(count), value);
   }
 
   // Swaps underlying array between two vectors
@@ -553,10 +554,10 @@ class vector {
   };
 
   // Reallocated the vectors array
-  void Reallocate(size_type size, value_type value = value_type()) {
+  void Reallocate(size_type size, size_type cap = 0, value_type value = value_type()) {
     pointer new_first_ = alloc_.allocate(size, first_);
     pointer new_last_  = new_first_ + size;
-    pointer new_end_   = new_first_ + size;
+    pointer new_end_   = new_first_ + (cap > size ? cap : size);
 
     for (size_type i = 0; i < size; ++i) {
       alloc_.construct(new_first_ + i, value);

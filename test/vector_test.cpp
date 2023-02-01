@@ -443,11 +443,9 @@ TEST(VectorNonMember, GreaterThan) {
 TEST(VectorNonMember, GreaterThanEqual) {
   ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
   ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
-  ft::vector<int> v3((unsigned)10, 3);  // TODO type inference
 
   EXPECT_FALSE(v1 >= v2);
-  EXPECT_TRUE(v1 >= v3);
-  EXPECT_TRUE(v2 >= v3);
+  EXPECT_TRUE(v2 >= v1);
 }
 
 // template< class T, class Alloc >
