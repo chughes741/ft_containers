@@ -81,8 +81,7 @@ TEST(VectorAssignment, CopyAssignment) {
 // void assign( size_type count, const T& value )
 TEST(VectorAssignment, Assign) {
   ft::vector<int> v1(100);
-  // SIGSEGV
-  // v1.assign((unsigned)100, 69);  // TODO type inference
+  v1.assign((unsigned)100, 69);  // TODO type inference
 
   EXPECT_GE(v1.size(), 100);
 
@@ -100,8 +99,7 @@ TEST(VectorAssignment, AssignRange) {  // TODO
   v1[1] = 2;
   v1[2] = 3;
   ft::vector<int> v2;
-  // SIGSEGV
-  // v2.assign(v1.begin(), v1.end());
+  v2.assign(v1.begin(), v1.end());
 
   EXPECT_EQ(v1, v2);
 }
@@ -150,8 +148,8 @@ TEST(VectorElementAccess, Back) {
 
 // T* data()
 TEST(VectorElementAccess, Data) {
-  ft::vector<int> v1(10);
-  // EXPECT_EQ(v1.data(), v1.begin()); // TODO how to check this?
+  ft::vector<int> v1((unsigned)10, 3);
+  EXPECT_EQ(*v1.data(), 3);
 }
 
 // iterator begin()
