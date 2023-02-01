@@ -385,9 +385,9 @@ TEST(VectorModifiers, Swap) {
 // bool operator==( const std::vector<T,Alloc>& lhs,
 //  const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, Equal) {
-  ft::vector<int> v1((unsigned)10, 3);
-  ft::vector<int> v2((unsigned)10, 3);
-  ft::vector<int> v3((unsigned)3, 3);
+  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v2((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v3((unsigned)3, 3);   // TODO type inference
 
   EXPECT_TRUE(v1 == v2);
   EXPECT_FALSE(v1 == v3);
@@ -397,9 +397,9 @@ TEST(VectorNonMember, Equal) {
 // bool operator!=( const std::vector<T,Alloc>& lhs,
 //  const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, NotEqual) {
-  ft::vector<int> v1((unsigned)10, 3);
-  ft::vector<int> v2((unsigned)10, 3);
-  ft::vector<int> v3((unsigned)3, 3);
+  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v2((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v3((unsigned)3, 3);   // TODO type inference
 
   EXPECT_FALSE(v1 != v2);
   EXPECT_TRUE(v1 != v3);
@@ -409,9 +409,9 @@ TEST(VectorNonMember, NotEqual) {
 // bool operator<( const std::vector<T,Alloc>& lhs,
 // const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, LessThan) {
-  ft::vector<int> v1((unsigned)10, 3);
-  ft::vector<int> v2((unsigned)10, 5);
-  ft::vector<int> v3((unsigned)3, 3);
+  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
+  ft::vector<int> v3((unsigned)3, 3);   // TODO type inference
 
   EXPECT_TRUE(v1 < v2);
   EXPECT_FALSE(v2 < v3);
@@ -421,10 +421,10 @@ TEST(VectorNonMember, LessThan) {
 // template< class T, class Alloc >
 // bool operator<=( const std::vector<T,Alloc>& lhs,
 //  const std::vector<T,Alloc>& rhs )
-TEST(VectorNonMember, LessThanEqual) {  // TODO
-  ft::vector<int> v1((unsigned)10, 3);
-  ft::vector<int> v2((unsigned)10, 5);
-  ft::vector<int> v3((unsigned)10, 3);
+TEST(VectorNonMember, LessThanEqual) {
+  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
+  ft::vector<int> v3((unsigned)10, 3);  // TODO type inference
 
   EXPECT_TRUE(v1 <= v2);
   EXPECT_TRUE(v1 <= v3);
@@ -434,10 +434,10 @@ TEST(VectorNonMember, LessThanEqual) {  // TODO
 // template< class T, class Alloc >
 // bool operator>( const std::vector<T,Alloc>& lhs,
 // const std::vector<T,Alloc>& rhs )
-TEST(VectorNonMember, GreaterThan) {  // TODO
-  ft::vector<int> v1((unsigned)10, 3);
-  ft::vector<int> v2((unsigned)10, 5);
-  ft::vector<int> v3((unsigned)3, 3);
+TEST(VectorNonMember, GreaterThan) {
+  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
+  ft::vector<int> v3((unsigned)3, 3);   // TODO type inference
 
   EXPECT_FALSE(v1 > v2);
   EXPECT_TRUE(v2 > v3);
@@ -447,10 +447,10 @@ TEST(VectorNonMember, GreaterThan) {  // TODO
 // template< class T, class Alloc >
 // bool operator>=( const std::vector<T,Alloc>& lhs,
 //  const std::vector<T,Alloc>& rhs )
-TEST(VectorNonMember, GreaterThanEqual) {  // TODO
-  ft::vector<int> v1((unsigned)10, 3);
-  ft::vector<int> v2((unsigned)10, 5);
-  ft::vector<int> v3((unsigned)10, 3);
+TEST(VectorNonMember, GreaterThanEqual) {
+  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
+  ft::vector<int> v3((unsigned)10, 3);  // TODO type inference
 
   EXPECT_FALSE(v1 >= v2);
   EXPECT_FALSE(v1 >= v3);
@@ -460,7 +460,7 @@ TEST(VectorNonMember, GreaterThanEqual) {  // TODO
 // template< class T, class Alloc >
 // void swap( std::vector<T,Alloc>& lhs,
 //  std::vector<T,Alloc>& rhs )
-TEST(VectorNonMember, Swap) {  // TODO
+TEST(VectorNonMember, Swap) {
   ft::vector<int> v1((unsigned)5, 20);  // TODO type inference
   ft::vector<int> v2((unsigned)3, 10);  // TODO type inference
 
