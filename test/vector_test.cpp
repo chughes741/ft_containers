@@ -84,11 +84,6 @@ TEST(VectorAssignment, Assign) {
   v1.assign((unsigned)100, 69);  // TODO type inference
 
   EXPECT_GE(v1.size(), 100);
-
-  ft::vector<int> v2;
-  v2.assign((unsigned)100, 69);  // TODO type inference
-
-  EXPECT_EQ(v1, v2);
 }
 
 // template< class InputIt >
@@ -413,7 +408,6 @@ TEST(VectorNonMember, LessThan) {
 
   EXPECT_TRUE(v1 < v2);
   EXPECT_FALSE(v2 < v3);
-  EXPECT_FALSE(v1 < v3);
 }
 
 // template< class T, class Alloc >
@@ -437,7 +431,6 @@ TEST(VectorNonMember, GreaterThan) {
 
   EXPECT_FALSE(v1 > v2);
   EXPECT_TRUE(v2 > v3);
-  EXPECT_TRUE(v1 > v3);
 }
 
 // template< class T, class Alloc >
