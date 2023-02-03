@@ -41,7 +41,7 @@ TEST(VectorConstructors, SizeConstructor) {
 // template< class InputIt >
 // vector( InputIt first, InputIt last, const Allocator& alloc = Allocator())
 TEST(VectorConstructors, RangeConstructor) {
-  // ft::vector<int> v1(10, 3);
+  ft::vector<int> v1(10, 3);
   // ft::vector<int> v2(v1.begin(), v1.end());
 
   // EXPECT_LE(v1.size(), v2.size());
