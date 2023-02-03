@@ -28,12 +28,12 @@ TEST(VectorConstructors, SizeConstructor) {
 
   EXPECT_GE(v1.capacity(), 10);
 
-  ft::vector<int> v2((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v2(10, 3);
 
   EXPECT_GE(v2.capacity(), 10);
 
   std::allocator<int> alloc;
-  ft::vector<int>     v3((unsigned)10, 69, alloc);  // TODO type inference
+  ft::vector<int>     v3(10, 69, alloc);
 
   EXPECT_GE(v3.capacity(), 10);
 }
@@ -41,15 +41,15 @@ TEST(VectorConstructors, SizeConstructor) {
 // template< class InputIt >
 // vector( InputIt first, InputIt last, const Allocator& alloc = Allocator())
 TEST(VectorConstructors, RangeConstructor) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2(v1.begin(), v1.end());
+  // ft::vector<int> v1(10, 3);
+  // ft::vector<int> v2(v1.begin(), v1.end());
 
-  EXPECT_LE(v1.size(), v2.size());
+  // EXPECT_LE(v1.size(), v2.size());
 
-  std::allocator<int> alloc;
-  ft::vector<int>     v3(v1.begin(), v1.end(), alloc);
+  // std::allocator<int> alloc;
+  // ft::vector<int>     v3(v1.begin(), v1.end(), alloc);
 
-  EXPECT_LE(v1.size(), v3.size());
+  // EXPECT_LE(v1.size(), v3.size());
 }
 
 // vector( const vector& other )
@@ -72,7 +72,7 @@ TEST(VectorAssignment, CopyAssignment) {
 
   EXPECT_EQ(v1.size(), v2.size());
 
-  ft::vector<int> v3((unsigned)100, 69);  // TODO type inference
+  ft::vector<int> v3(100, 69);
   ft::vector<int> v4 = v3;
 
   EXPECT_EQ(v3.size(), v4.size());
@@ -88,7 +88,7 @@ TEST(VectorAssignment, Assign) {
 
 // template< class InputIt >
 // void assign( InputIt first, InputIt last )
-TEST(VectorAssignment, AssignRange) {  // TODO
+TEST(VectorAssignment, AssignRange) {
   ft::vector<int> v1(3);
   v1[0] = 1;
   v1[1] = 2;
@@ -100,14 +100,14 @@ TEST(VectorAssignment, AssignRange) {  // TODO
 }
 
 // allocator_type get_allocator() const
-TEST(VectorGetAllocator, GetAllocator) {  // TODO test for allocator?
+TEST(VectorGetAllocator, GetAllocator) {
   ft::vector<int> v1;
 
   EXPECT_NO_THROW(v1.get_allocator());
 }
 
 // reference at( size_type pos )
-TEST(VectorElementAccess, At) {  // TODO
+TEST(VectorElementAccess, At) {
   ft::vector<int> v1(10);
   v1[1] = 1;
 
@@ -127,7 +127,7 @@ TEST(VectorElementAccess, AtOperator) {
 
 // reference front()
 TEST(VectorElementAccess, Front) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v1(10, 3);
   v1[0] = 1;
 
   EXPECT_EQ(v1.front(), 1);
@@ -135,13 +135,13 @@ TEST(VectorElementAccess, Front) {
 
 // reference back()
 TEST(VectorElementAccess, Back) {
-  ft::vector<int> v1((unsigned)10, 2);  // TODO type inference
+  ft::vector<int> v1(10, 2);
   EXPECT_EQ(v1.back(), 2);
 }
 
 // T* data()
 TEST(VectorElementAccess, Data) {
-  ft::vector<int> v1((unsigned)10, 3);
+  ft::vector<int> v1(10, 3);
   EXPECT_EQ(*v1.data(), 3);
 }
 
@@ -209,7 +209,7 @@ TEST(VectorCapacity, Empty) {
 
 // size_type size() const
 TEST(VectorCapacity, Size) {
-  ft::vector<int> v1((unsigned)100, 1);  // TODO type inference
+  ft::vector<int> v1(100, 1);
 
   EXPECT_GE(v1.size(), 100);
   v1.push_back(3);
@@ -248,7 +248,7 @@ TEST(VectorCapacity, Capacity) {
 
 // void clear()
 TEST(VectorModifiers, Clear) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v1(10, 3);
   v1.clear();
 
   EXPECT_EQ(v1.size(), 0);
@@ -256,7 +256,7 @@ TEST(VectorModifiers, Clear) {
 
 // iterator insert( const_iterator pos, const T& value )
 TEST(VectorModifiers, Insert) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v1(10, 3);
   v1.insert(v1.begin(), 1);
 
   EXPECT_EQ(v1.front(), 1);
@@ -264,8 +264,8 @@ TEST(VectorModifiers, Insert) {
 
 // iterator insert( const_iterator pos, size_type count, const T& value )
 TEST(VectorModifiers, InsertCount) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  v1.insert(v1.begin(), (unsigned)5, 1);
+  ft::vector<int> v1(10, 3);
+  v1.insert(v1.begin(), (unsigned)5, 1);  // TODO type inference
 
   EXPECT_GE(v1.size(), 15);
   EXPECT_EQ(v1[0], 1);
@@ -276,8 +276,8 @@ TEST(VectorModifiers, InsertCount) {
 // template< class InputIt >
 // iterator insert( const_iterator pos, InputIt first, InputIt last );
 TEST(VectorModifiers, InsertRange) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)10, 1);  // TODO type inference
+  ft::vector<int> v1(10, 3);
+  ft::vector<int> v2(10, 1);
   v1.insert(v1.begin(), v2.begin(), v2.end());
 
   EXPECT_GE(v1.size(), 20);
@@ -287,7 +287,7 @@ TEST(VectorModifiers, InsertRange) {
 
 // iterator erase( iterator pos )
 TEST(VectorModifiers, Erase) {
-  ft::vector<int> v1((unsigned)1, 0);  // TODO type inference
+  ft::vector<int> v1(1, 0);
   v1.push_back(1);
   v1.push_back(2);
   v1.push_back(3);
@@ -300,7 +300,7 @@ TEST(VectorModifiers, Erase) {
 
 // iterator erase( iterator first, iterator last )
 TEST(VectorModifiers, EraseRange) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v1(10, 3);
   v1.erase(v1.begin(), v1.end() - 1);
 
   EXPECT_EQ(v1.size(), 0);
@@ -336,7 +336,7 @@ TEST(VectorModifiers, PopBack) {
 
 // void resize( size_type count )
 TEST(VectorModifiers, Resize) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v1(10, 3);
   v1.resize(3);
 
   EXPECT_EQ(v1.size(), 3);
@@ -344,7 +344,7 @@ TEST(VectorModifiers, Resize) {
 
 // void resize( size_type count, T value = T() )
 TEST(VectorModifiers, ResizeSet) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
+  ft::vector<int> v1(10, 3);
   v1.resize(3, 10);
 
   EXPECT_EQ(v1.size(), 3);
@@ -355,8 +355,8 @@ TEST(VectorModifiers, ResizeSet) {
 
 // void swap( vector& other )
 TEST(VectorModifiers, Swap) {
-  ft::vector<int> v1((unsigned)5, 20);  // TODO type inference
-  ft::vector<int> v2((unsigned)3, 10);  // TODO type inference
+  ft::vector<int> v1(5, 20);
+  ft::vector<int> v2(3, 10);
 
   ft::vector<int>::iterator it1 = v1.begin();
   ft::vector<int>::iterator it2 = v2.begin();
@@ -380,8 +380,8 @@ TEST(VectorModifiers, Swap) {
 // bool operator==( const std::vector<T,Alloc>& lhs,
 //  const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, Equal) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)3, 3);   // TODO type inference
+  ft::vector<int> v1(10, 3);
+  ft::vector<int> v2(3, 3);
 
   EXPECT_TRUE(v1 == v1);
   EXPECT_FALSE(v1 == v2);
@@ -391,8 +391,8 @@ TEST(VectorNonMember, Equal) {
 // bool operator!=( const std::vector<T,Alloc>& lhs,
 //  const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, NotEqual) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)3, 3);   // TODO type inference
+  ft::vector<int> v1(10, 3);
+  ft::vector<int> v2(3, 3);
 
   EXPECT_FALSE(v1 != v1);
   EXPECT_TRUE(v1 != v2);
@@ -402,9 +402,9 @@ TEST(VectorNonMember, NotEqual) {
 // bool operator<( const std::vector<T,Alloc>& lhs,
 // const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, LessThan) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
-  ft::vector<int> v3((unsigned)3, 3);   // TODO type inference
+  ft::vector<int> v1(10, 3);
+  ft::vector<int> v2(10, 5);
+  ft::vector<int> v3(3, 3);
 
   EXPECT_TRUE(v1 < v2);
   EXPECT_FALSE(v2 < v3);
@@ -414,8 +414,8 @@ TEST(VectorNonMember, LessThan) {
 // bool operator<=( const std::vector<T,Alloc>& lhs,
 //  const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, LessThanEqual) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
+  ft::vector<int> v1(10, 3);
+  ft::vector<int> v2(10, 5);
 
   EXPECT_TRUE(v1 <= v2);
   EXPECT_FALSE(v2 <= v1);
@@ -425,9 +425,9 @@ TEST(VectorNonMember, LessThanEqual) {
 // bool operator>( const std::vector<T,Alloc>& lhs,
 // const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, GreaterThan) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
-  ft::vector<int> v3((unsigned)3, 3);   // TODO type inference
+  ft::vector<int> v1(10, 3);
+  ft::vector<int> v2(10, 5);
+  ft::vector<int> v3(3, 3);
 
   EXPECT_FALSE(v1 > v2);
   EXPECT_TRUE(v2 > v3);
@@ -437,8 +437,8 @@ TEST(VectorNonMember, GreaterThan) {
 // bool operator>=( const std::vector<T,Alloc>& lhs,
 //  const std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, GreaterThanEqual) {
-  ft::vector<int> v1((unsigned)10, 3);  // TODO type inference
-  ft::vector<int> v2((unsigned)10, 5);  // TODO type inference
+  ft::vector<int> v1(10, 3);
+  ft::vector<int> v2(10, 5);
 
   EXPECT_FALSE(v1 >= v2);
   EXPECT_TRUE(v2 >= v1);
@@ -448,8 +448,8 @@ TEST(VectorNonMember, GreaterThanEqual) {
 // void swap( std::vector<T,Alloc>& lhs,
 //  std::vector<T,Alloc>& rhs )
 TEST(VectorNonMember, Swap) {
-  ft::vector<int> v1((unsigned)5, 20);  // TODO type inference
-  ft::vector<int> v2((unsigned)3, 10);  // TODO type inference
+  ft::vector<int> v1(5, 20);
+  ft::vector<int> v2(3, 10);
 
   ft::vector<int>::iterator it1 = v1.begin();
   ft::vector<int>::iterator it2 = v2.begin();

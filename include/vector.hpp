@@ -11,6 +11,7 @@
 
 #include "algorithm.hpp"
 #include "iterator.hpp"
+#include "type_traits.hpp"
 
 #define ft_noexcept throw()
 
@@ -230,7 +231,7 @@ class vector {
   }
 
   // Range constructor
-  template <class InputIt>
+  template <class InputIt, typename ft::enable_if<ft::is_iterator<InputIt>::value>::type>
   vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
       : alloc_(alloc) {
     first_ = alloc_.allocate(SmartSize(last - first));

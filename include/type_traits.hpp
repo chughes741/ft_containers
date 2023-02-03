@@ -5,6 +5,10 @@
 
 #define ft_noexcept throw()
 
+#include <type_traits>
+
+#include "iterator.hpp"
+
 namespace ft {
 
 template <class T, T value>
@@ -14,14 +18,16 @@ struct integral_constant {
 
   static const T value_ = value;
 
-  operator value_type() const ft_noexcept { return V; }
+  operator value_type() const ft_noexcept {
+    return value;
+  }
 };
 
 typedef integral_constant<bool, true>  true_type;
 typedef integral_constant<bool, false> false_type;
 
 template <class T>
-struct is_integral_helper : public : false_type {};
+struct is_integral_helper : public false_type {};
 template <>
 struct is_integral_helper<bool> : public true_type {};
 template <>
@@ -46,9 +52,6 @@ template <>
 struct is_integral_helper<unsigned long int> : public true_type {};
 
 template <class T>
-struct is_integral : is_integral_helper<remove_cv<T>>::type {};
-
-template <class T>
 struct remove_cv {
   typedef T type;
 };
@@ -65,6 +68,9 @@ struct remove_cv<const volatile T> {
   typedef T type;
 };
 
+template <class T>
+struct is_integral : is_integral_helper<remove_cv<T>>::type {};
+
 template <bool B, class T = void>
 struct enable_if {};
 
@@ -72,6 +78,16 @@ template <class T>
 struct enable_if<true, T> {
   typedef T type;
 };
+
+template <class Iter>
+struct is_iterator : false_type {
+  typedef bool value;
+};
+
+template <>
+struct is_iterator<int> : false_type {
+};
+
 
 }  // namespace ft
 
