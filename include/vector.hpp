@@ -25,7 +25,7 @@ class vector_const_iterator {
   typedef typename MyVector::value_type      value_type;
   typedef typename MyVector::difference_type difference_type;
   typedef typename MyVector::pointer         pointer;
-  typedef typename MyVector::reference       reference;
+  typedef const value_type&                  reference;
 
   pointer ptr_;
 
@@ -33,7 +33,7 @@ class vector_const_iterator {
   }
   vector_const_iterator(pointer ptr) ft_noexcept : ptr_(ptr) {
   }
-  const reference operator*() const ft_noexcept {
+  reference operator*() const ft_noexcept {
     return *ptr_;
   }
   const pointer operator->() const ft_noexcept {
@@ -122,44 +122,42 @@ bool operator>=(const ft::vector_const_iterator<MyVector>& lhs,
 template <class MyVector>
 class vector_iterator : public ft::vector_const_iterator<MyVector> {
  public:
+  typedef vector_const_iterator<MyVector> base_iterator;
+
   typedef random_access_iterator_tag         iterator_category;
   typedef typename MyVector::value_type      value_type;
   typedef typename MyVector::difference_type difference_type;
   typedef typename MyVector::pointer         pointer;
-  typedef typename MyVector::reference       reference;
+  typedef value_type&                        reference;
 
-  pointer ptr_;
+  vector_iterator(pointer ptr) : base_iterator(ptr){};
 
-  vector_iterator() ft_noexcept : ptr_() {
-  }
-  vector_iterator(pointer ptr) ft_noexcept : ptr_(ptr) {
-  }
   value_type& operator*() const ft_noexcept {
-    return *ptr_;
+    return const_cast<reference>(base_iterator::operator*());
   }
   const pointer operator->() const ft_noexcept {
-    return ptr_;
+    return this->ptr_;
   }
   vector_iterator& operator++() ft_noexcept {
-    ++ptr_;
+    base_iterator::operator++();
     return *this;
   }
   vector_iterator operator++(int) ft_noexcept {
     vector_iterator temp = *this;
-    ++ptr_;
+    base_iterator:: operator++();
     return temp;
   }
   vector_iterator& operator--() ft_noexcept {
-    --ptr_;
+    base_iterator::operator--();
     return *this;
   }
   vector_iterator operator--(int) {
     vector_iterator temp = *this;
-    --ptr_;
+    base_iterator:: operator--();
     return temp;
   }
   vector_iterator& operator+=(const difference_type offset) {
-    ptr_ += offset;
+    base_iterator::operator+=(offset);
     return *this;
   }
   vector_iterator operator+(const difference_type offset) const {
@@ -168,7 +166,7 @@ class vector_iterator : public ft::vector_const_iterator<MyVector> {
     return temp;
   }
   vector_iterator& operator-=(const difference_type offset) {
-    ptr_ -= offset;
+    base_iterator::operator-=(offset);
     return *this;
   }
   vector_iterator operator-(const difference_type offset) const {
@@ -176,49 +174,12 @@ class vector_iterator : public ft::vector_const_iterator<MyVector> {
     temp -= offset;
     return temp;
   }
-  difference_type operator-(const vector_iterator& rhs) const {
-    return ptr_ - rhs.ptr_;
-  }
+  using base_iterator::operator-;
+
   value_type& operator[](const difference_type offset) const {
-    return *(ptr_ + offset);
+    return const_cast<reference>(base_iterator::operator[](offset));
   }
 };
-
-template <class MyVector>
-bool operator==(const ft::vector_iterator<MyVector>& lhs,
-                const ft::vector_iterator<MyVector>& rhs) {
-  return lhs.ptr_ == rhs.ptr_;
-}
-
-template <class MyVector>
-bool operator!=(const ft::vector_iterator<MyVector>& lhs,
-                const ft::vector_iterator<MyVector>& rhs) {
-  return !(lhs == rhs);
-}
-
-template <class MyVector>
-bool operator<(const ft::vector_iterator<MyVector>& lhs,
-               const ft::vector_iterator<MyVector>& rhs) {
-  return lhs.ptr_ < rhs.ptr_;
-}
-
-template <class MyVector>
-bool operator>(const ft::vector_iterator<MyVector>& lhs,
-               const ft::vector_iterator<MyVector>& rhs) {
-  return rhs < lhs;
-}
-
-template <class MyVector>
-bool operator<=(const ft::vector_iterator<MyVector>& lhs,
-                const ft::vector_iterator<MyVector>& rhs) {
-  return !(rhs < lhs);
-}
-
-template <class MyVector>
-bool operator>=(const ft::vector_iterator<MyVector>& lhs,
-                const ft::vector_iterator<MyVector>& rhs) {
-  return !(lhs < rhs);
-}
 
 // Vector<T> class template
 template <class T, class Allocator = std::allocator<T>>
