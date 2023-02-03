@@ -17,6 +17,8 @@
 
 namespace ft {
 
+using ft::enable_if;
+using ft::is_iterator;
 using std::random_access_iterator_tag;
 
 template <class MyVector>
@@ -231,7 +233,7 @@ class vector {
   }
 
   // Range constructor
-  template <class InputIt, typename ft::enable_if<ft::is_iterator<InputIt>::value>::type>
+  template <class InputIt, enable_if<is_iterator<InputIt>::value>>
   vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
       : alloc_(alloc) {
     first_ = alloc_.allocate(SmartSize(last - first));
