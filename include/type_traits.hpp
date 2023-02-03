@@ -11,6 +11,8 @@
 
 namespace ft {
 
+using ft::iterator_traits;
+
 template <class T, T value>
 struct integral_constant {
   typedef integral_constant<T, value> type;
@@ -79,13 +81,18 @@ struct enable_if<true, T> {
   typedef T type;
 };
 
-template <class Iter>
-struct is_iterator : false_type {
-  typedef bool value;
+template <class Iter, bool = false>
+struct is_iterator : public false_type {
 };
 
-template <>
-struct is_iterator<int> : false_type {
+template <class Iter>
+struct is_iterator<Iter> : public true_type {
+  typedef Iter value;
+};
+
+template <typename T>
+struct is_iterator<T*> : public true_type {
+  typedef T* value;
 };
 
 
