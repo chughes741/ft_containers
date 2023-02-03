@@ -16,27 +16,27 @@
 
 namespace ft {
 
+using std::random_access_iterator_tag;
+
 template <class MyVector>
 class vector_const_iterator {
  public:
-  typedef std::random_access_iterator_tag    iterator_category;
+  typedef random_access_iterator_tag         iterator_category;
   typedef typename MyVector::value_type      value_type;
   typedef typename MyVector::difference_type difference_type;
   typedef typename MyVector::pointer         pointer;
-  typedef typename MyVector::const_pointer   const_pointer;
   typedef typename MyVector::reference       reference;
-  typedef typename MyVector::const_reference const_reference;
 
-  const_pointer ptr_;
+  pointer ptr_;
 
   vector_const_iterator() ft_noexcept : ptr_() {
   }
   vector_const_iterator(pointer ptr) ft_noexcept : ptr_(ptr) {
   }
-  const value_type& operator*() const ft_noexcept {
+  const reference operator*() const ft_noexcept {
     return *ptr_;
   }
-  const_pointer operator->() const ft_noexcept {
+  const pointer operator->() const ft_noexcept {
     return ptr_;
   }
   vector_const_iterator& operator++() ft_noexcept {
@@ -78,14 +78,9 @@ class vector_const_iterator {
   difference_type operator-(const vector_const_iterator& rhs) const {
     return ptr_ - rhs.ptr_;
   }
-  value_type& operator[](const difference_type offset) const {
+  reference operator[](const difference_type offset) const {
     return *(ptr_ + offset);
   }
-
-  // friend bool operator==(const vector_const_iterator<MyVector>& lhs,
-  //  const vector_const_iterator<MyVector>& rhs);
-  // friend bool operator<(const vector_const_iterator<MyVector>& lhs,
-  // const vector_const_iterator<MyVector>& rhs);
 };
 
 template <class MyVector>
@@ -125,15 +120,13 @@ bool operator>=(const ft::vector_const_iterator<MyVector>& lhs,
 }
 
 template <class MyVector>
-class vector_iterator {  //: public ft::vector_const_iterator<MyVector> {
+class vector_iterator : public ft::vector_const_iterator<MyVector> {
  public:
-  typedef std::random_access_iterator_tag    iterator_category;
+  typedef random_access_iterator_tag         iterator_category;
   typedef typename MyVector::value_type      value_type;
   typedef typename MyVector::difference_type difference_type;
   typedef typename MyVector::pointer         pointer;
-  typedef typename MyVector::const_pointer   const_pointer;
   typedef typename MyVector::reference       reference;
-  typedef typename MyVector::const_reference const_reference;
 
   pointer ptr_;
 
@@ -144,7 +137,7 @@ class vector_iterator {  //: public ft::vector_const_iterator<MyVector> {
   value_type& operator*() const ft_noexcept {
     return *ptr_;
   }
-  const_pointer operator->() const ft_noexcept {
+  const pointer operator->() const ft_noexcept {
     return ptr_;
   }
   vector_iterator& operator++() ft_noexcept {
@@ -189,11 +182,6 @@ class vector_iterator {  //: public ft::vector_const_iterator<MyVector> {
   value_type& operator[](const difference_type offset) const {
     return *(ptr_ + offset);
   }
-
-  // friend bool operator==(const vector_iterator<MyVector>& lhs,
-  //  const vector_iterator<MyVector>& rhs);
-  // friend bool operator<(const vector_iterator<MyVector>& lhs,
-  // const vector_iterator<MyVector>& rhs);
 };
 
 template <class MyVector>
@@ -246,8 +234,8 @@ class vector {
   typedef typename allocator_type::size_type       size_type;
   typedef typename allocator_type::difference_type difference_type;
 
-  typedef ft::vector_iterator<vector<T>>       iterator;
-  typedef ft::vector_const_iterator<vector<T>> const_iterator;
+  typedef vector_iterator<vector<T>>           iterator;
+  typedef vector_const_iterator<vector<T>>     const_iterator;
   typedef ft::reverse_iterator<iterator>       reverse_iterator;
   typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
