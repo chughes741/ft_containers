@@ -18,7 +18,7 @@
 namespace ft {
 
 using ft::enable_if;
-using ft::is_iterator;
+using ft::is_integral;
 using std::random_access_iterator_tag;
 
 template <class MyVector>
@@ -233,9 +233,13 @@ class vector {
   }
 
   // Range constructor
-  template <class InputIt, enable_if<is_iterator<InputIt>::value>>
-  vector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
+  template <class InputIt>
+  vector(InputIt                                                         first,
+         typename enable_if<!is_integral<InputIt>::value, InputIt>::type last,
+         const Allocator& alloc = Allocator())
       : alloc_(alloc) {
+    typedef typename iterator_traits<InputIt>::iterator_category category;
+
     first_ = alloc_.allocate(SmartSize(last - first));
     last_  = first_ + (last - first);
     end_   = first_ + SmartSize(last - first);
@@ -277,7 +281,9 @@ class vector {
 
   // Replaces the contents with copies of those in the range [first, last)
   template <class InputIt>
-  void assign(InputIt first, InputIt last) {
+  void assign(
+      InputIt                                                         first,
+      typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
     clear();
     Reallocate(last - first - 1, SmartSize(last - first - 1));
     for (size_type i = 0; i < last - first; ++i) {
@@ -453,7 +459,9 @@ class vector {
   // Inserts elements from range [first, last) before pos
   template <class InputIt>
   // iterator insert(const_iterator pos, InputIt first, InputIt last) {
-  iterator insert(iterator pos, InputIt first, InputIt last) {
+  iterator insert(
+      iterator pos, InputIt first,
+      typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
     difference_type pos_ = pos - first_;
     reserve(size() + (last - first));
 

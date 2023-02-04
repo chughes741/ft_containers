@@ -13,14 +13,17 @@ namespace ft {
 
 using ft::iterator_traits;
 
-template <class T, T value>
+template <class T, T v>
 struct integral_constant {
-  typedef integral_constant<T, value> type;
-  typedef T                           value_type;
+  typedef integral_constant type;
+  typedef T                 value_type;
 
-  static const T value_ = value;
+  static const T value = v;
 
   operator value_type() const ft_noexcept {
+    return value;
+  }
+  value_type operator()() const ft_noexcept {
     return value;
   }
 };
@@ -71,7 +74,7 @@ struct remove_cv<const volatile T> {
 };
 
 template <class T>
-struct is_integral : is_integral_helper<remove_cv<T>>::type {};
+struct is_integral : is_integral_helper<typename remove_cv<T>::type> {};
 
 template <bool B, class T = void>
 struct enable_if {};
@@ -81,20 +84,19 @@ struct enable_if<true, T> {
   typedef T type;
 };
 
-template <class Iter, bool = false>
-struct is_iterator : public false_type {
-};
+// template <class Iter, bool = false>
+// struct is_iterator : public false_type {
+// };
 
-template <class Iter>
-struct is_iterator<Iter> : public true_type {
-  typedef Iter value;
-};
+// template <class Iter>
+// struct is_iterator<Iter> : public true_type {
+// typedef Iter value;
+// };
 
-template <typename T>
-struct is_iterator<T*> : public true_type {
-  typedef T* value;
-};
-
+// template <typename T>
+// struct is_iterator<T*> : public true_type {
+// typedef T* value;
+// };
 
 }  // namespace ft
 

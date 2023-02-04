@@ -42,14 +42,14 @@ TEST(VectorConstructors, SizeConstructor) {
 // vector( InputIt first, InputIt last, const Allocator& alloc = Allocator())
 TEST(VectorConstructors, RangeConstructor) {
   ft::vector<int> v1(10, 3);
-  // ft::vector<int> v2(v1.begin(), v1.end());
+  ft::vector<int> v2(v1.begin(), v1.end());
 
-  // EXPECT_LE(v1.size(), v2.size());
+  EXPECT_LE(v1.size(), v2.size());
 
-  // std::allocator<int> alloc;
-  // ft::vector<int>     v3(v1.begin(), v1.end(), alloc);
+  std::allocator<int> alloc;
+  ft::vector<int>     v3(v1.begin(), v1.end(), alloc);
 
-  // EXPECT_LE(v1.size(), v3.size());
+  EXPECT_LE(v1.size(), v3.size());
 }
 
 // vector( const vector& other )
@@ -81,7 +81,7 @@ TEST(VectorAssignment, CopyAssignment) {
 // void assign( size_type count, const T& value )
 TEST(VectorAssignment, Assign) {
   ft::vector<int> v1(100);
-  v1.assign((unsigned)100, 69);  // TODO type inference
+  v1.assign(100, 69);
 
   EXPECT_GE(v1.size(), 100);
 }
@@ -265,7 +265,7 @@ TEST(VectorModifiers, Insert) {
 // iterator insert( const_iterator pos, size_type count, const T& value )
 TEST(VectorModifiers, InsertCount) {
   ft::vector<int> v1(10, 3);
-  v1.insert(v1.begin(), (unsigned)5, 1);  // TODO type inference
+  v1.insert(v1.begin(), 5, 1);
 
   EXPECT_GE(v1.size(), 15);
   EXPECT_EQ(v1[0], 1);
