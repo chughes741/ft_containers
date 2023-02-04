@@ -5,13 +5,7 @@
 
 #define ft_noexcept throw()
 
-#include <type_traits>
-
-#include "iterator.hpp"
-
 namespace ft {
-
-using ft::iterator_traits;
 
 template <class T, T v>
 struct integral_constant {
@@ -83,20 +77,6 @@ template <class T>
 struct enable_if<true, T> {
   typedef T type;
 };
-
-// template <class Iter, bool = false>
-// struct is_iterator : public false_type {
-// };
-
-// template <class Iter>
-// struct is_iterator<Iter> : public true_type {
-// typedef Iter value;
-// };
-
-// template <typename T>
-// struct is_iterator<T*> : public true_type {
-// typedef T* value;
-// };
 
 }  // namespace ft
 
