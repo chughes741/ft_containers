@@ -172,28 +172,29 @@ TEST(VectorIterator, End) {
 }
 
 // reverse_iterator rbegin()
-TEST(VectorIterator, RBegin) {  // TODO
+TEST(VectorIterator, RBegin) {
   ft::vector<int> v1;
-  // EXPECT_EQ(v1.rbegin(), v1.rend());
+  EXPECT_EQ(v1.rbegin() + 1, v1.rend());
 
-  // ft::vector<int> v2(3);
-  // v2[0] = 1;
-  // v2[1] = 2;
-  // v2[2] = 3;
-  // EXPECT_EQ(v2.rbegin() + 4, v2.rend());
+  ft::vector<int> v2(3);
+  v2[0] = 1;
+  v2[1] = 2;
+  v2[2] = 3;
+  EXPECT_EQ(v2.rbegin() + 4, v2.rend());
 }
 
 // reverse_iterator rend()
-TEST(VectorIterator, REnd) {  // TODO
+TEST(VectorIterator, REnd) {
   ft::vector<int> v1;
 
-  // EXPECT_EQ(v1.rbegin(), v1.rend());
-  // ft::vector<int> v2(3);
-  // v2[0] = 1;
-  // v2[1] = 2;
-  // v2[2] = 3;
+  EXPECT_EQ(v1.rbegin() + 1, v1.rend());
 
-  // EXPECT_EQ(v2.rbegin() + 4, v2.rend());
+  ft::vector<int> v2(3);
+  v2[0] = 1;
+  v2[1] = 2;
+  v2[2] = 3;
+
+  EXPECT_EQ(v2.rbegin() + 4, v2.rend());
 }
 
 // bool empty() const

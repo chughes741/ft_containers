@@ -369,22 +369,22 @@ class vector {
 
   // Returns a reverse iterator to the start of the reversed vector
   reverse_iterator rbegin() ft_noexcept {
-    return reverse_iterator(this->last_, this);
+    return reverse_iterator(end());
   }
 
   // Returns a reverse iterator to the start of the reversed vector
   const_reverse_iterator rbegin() const ft_noexcept {
-    return const_reverse_iterator(this->last_, this);
+    return const_reverse_iterator(end());
   }
 
   // Returns a reverse iterator to the end of the reversed vector
   reverse_iterator rend() ft_noexcept {
-    return reverse_iterator(this->first_ - 1, this);
+    return reverse_iterator(begin());
   }
 
   // Returns a reverse iterator to the end of the reversed vector
   const_reverse_iterator rend() const ft_noexcept {
-    return const_reverse_iterator(this->first_ - 1, this);
+    return const_reverse_iterator(begin());
   }
 
   // Returns true if there are no elements in use
