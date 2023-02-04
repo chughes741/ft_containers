@@ -3,7 +3,6 @@
 #ifndef VECTOR_HPP_
 #define VECTOR_HPP_
 
-#include <iostream>  // RBS
 #include <iterator>  // std::iterator
 #include <memory>    // std::uninitialized_fill
 #include <stdexcept>

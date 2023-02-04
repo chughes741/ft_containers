@@ -3,8 +3,7 @@
 #ifndef INTERATOR_HPP_
 #define INTERATOR_HPP_
 
-#include <cstddef>   //TODO check
-#include <iterator>  // std::iterator
+#include <iterator>  // iterator tags
 #include <memory>    // std::addressof
 
 #define ft_noexcept throw()
