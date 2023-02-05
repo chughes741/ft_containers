@@ -237,7 +237,11 @@ class vector {
          typename enable_if<!is_integral<InputIt>::value, InputIt>::type last,
          const Allocator& alloc = Allocator())
       : alloc_(alloc) {
+// Ignoring -Wunused-local-typedef to be able to use it for SFINAE
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-local-typedef"
     typedef typename iterator_traits<InputIt>::iterator_category category;
+#pragma clang diagnostic pop
 
     first_ = alloc_.allocate(SmartSize(last - first));
     last_  = first_ + (last - first);
@@ -266,7 +270,7 @@ class vector {
 
   // Destructor
   ~vector() ft_noexcept {
-    for (size_type i = 0; i < (end_ - last_); ++i) {
+    for (size_type i = 0; i < static_cast<unsigned long>(end_ - last_); ++i) {
       alloc_.destroy(first_ + i);
     }
     alloc_.deallocate(first_, last_ - first_);
@@ -285,7 +289,7 @@ class vector {
       typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
     clear();
     Reallocate(last - first - 1, SmartSize(last - first - 1));
-    for (size_type i = 0; i < last - first; ++i) {
+    for (size_type i = 0; i < static_cast<unsigned long>(last - first); ++i) {
       first_[i] = first[i];
     }
   }
@@ -471,7 +475,8 @@ class vector {
       *new_last_ = *(new_last_ + (last - first));
       alloc_.destroy(new_last_);
     }
-    for (size_type count_ = 0; count_ < (last - first); ++count_) {
+    for (size_type count_ = 0;
+         count_ < static_cast<unsigned long>(last - first); ++count_) {
       alloc_.construct(new_first_ + count_, *(first + count_));
     }
     return iterator(first_ + pos_);
