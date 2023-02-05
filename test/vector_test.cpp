@@ -4,21 +4,38 @@
 #include <gtest/gtest.h>
 
 #include <memory>
+#include <string>
 #include <vector>
 
 // vector()
 TEST(VectorConstructors, DefaultConstructor) {
-  {
+  {  // default constructor - int
     ft::vector<int> v;
+    EXPECT_EQ(v.size(), 0);
+  }
+  {  // default constructor - string
+    ft::vector<std::string> v;
+    EXPECT_EQ(v.size(), 0);
+  }
+  {  // default constructor - ft::vector<ft::vector<int>>
+    ft::vector<ft::vector<int>> v;
+    EXPECT_EQ(v.size(), 0);
+  }
+  {  // default constructor - std::vector<ft::vector<int>>
+    std::vector<ft::vector<int>> v;
     EXPECT_EQ(v.size(), 0);
   }
 }
 
 // explicit vector( const Allocator& alloc )
 TEST(VectorConstructors, AllocConstructor) {
-  {
+  {  // constructor
     std::allocator<int> alloc;
     ft::vector<int>     v(alloc);
+    EXPECT_EQ(v.size(), 0);
+  }
+  {  // template
+    ft::vector<int, std::allocator<int>> v;
     EXPECT_EQ(v.size(), 0);
   }
 }
@@ -80,6 +97,9 @@ TEST(VectorConstructors, CopyConstructor) {
     ft::vector<int> v2(v1);
     EXPECT_EQ(v1.size(), v2.size());
   }
+  // TODO check for deep/shallow copies
+  // TODO check for std::containers compatibility
+  // TODO check for input_iterator compatibility 
 }
 
 // vector& operator=( const vector& other )
@@ -103,6 +123,7 @@ TEST(VectorAssignment, Assign) {
     v.assign(100, 69);
     EXPECT_GE(v.size(), 100);
   }
+  // TODO check with other <data-types>
 }
 
 // template< class InputIt >
@@ -118,6 +139,7 @@ TEST(VectorAssignment, AssignRange) {
 
     EXPECT_EQ(v1, v2);
   }
+  // TODO check with other <data-types>
 }
 
 // allocator_type get_allocator() const
@@ -125,6 +147,7 @@ TEST(VectorGetAllocator, GetAllocator) {
   {
     ft::vector<int> v;
     EXPECT_NO_THROW(v.get_allocator());
+    // TODO get_allocator() is noexcept - need better test
   }
 }
 
@@ -132,10 +155,12 @@ TEST(VectorGetAllocator, GetAllocator) {
 TEST(VectorElementAccess, At) {
   {
     ft::vector<int> v(10);
+    v[0] = 0;
     v[1] = 1;
 
     EXPECT_EQ(v.at(0), 0);
     EXPECT_EQ(v.at(1), 1);
+    EXPECT_THROW(v.at(2), std::out_of_range);
     EXPECT_THROW(v.at(100), std::out_of_range);
   }
 }
