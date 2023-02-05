@@ -5,6 +5,7 @@ project(ft_containers VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_MAKE_PROGRAM make)
+add_compile_options(-Wall -Werror -Wextra)
 
 find_package(GTest CONFIG REQUIRED)
 
