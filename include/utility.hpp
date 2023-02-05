@@ -12,20 +12,14 @@ template <class T1, class T2>
 struct pair {
  public:
   // Default constructor
-  pair() : first(), second() {}
-
+  pair() : first(), second() {
+  }
   // Default constructor overload with initialize values
-  pair(const T1& first, const T2& second) : first(first), second(second) {}
-
+  pair(const T1& first, const T2& second) : first(first), second(second) {
+  }
   // Copy constructor
   template <class U1, class U2>
-  pair(const pair<U1, U2>& pair) : first(pair.first), second(pair.second) {}
-
-  // Copy assignment operator
-  pair& operator=(const pair& other) {
-    this->first  = other.first;
-    this->second = other.second;
-    return *this;
+  pair(const pair<U1, U2>& pair) : first(pair.first), second(pair.second) {
   }
 
   // Data members
