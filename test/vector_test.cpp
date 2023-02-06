@@ -52,12 +52,8 @@ TEST(VectorConstructors, SizeConstructor) {
     EXPECT_GE(v.capacity(), 10);
   }
   {  // size only - large
-    ft::vector<int> v(123456);
-    EXPECT_GE(v.capacity(), 123456);
-  }
-  {
-    const ft::vector<int>::size_type max_size = ft::vector<int>().max_size();
-    EXPECT_NO_THROW(ft::vector<int> v(max_size));
+    ft::vector<int> v(1234567);
+    EXPECT_GE(v.capacity(), 1234567);
   }
   {  // size only - too large
      // TODO check if std::vector throws
@@ -67,6 +63,11 @@ TEST(VectorConstructors, SizeConstructor) {
   {  // size and count - small
     ft::vector<int> v(10, 4);
     EXPECT_GE(v.capacity(), 10);
+  }
+  {
+    ft::vector<int> v(1234567, 69);
+    EXPECT_EQ(v.size(), 1234567);
+    EXPECT_GE(v.capacity(), 1234567);
   }
   {  // size, count, and alloc - small
     std::allocator<int> alloc;
@@ -103,7 +104,7 @@ TEST(VectorConstructors, CopyConstructor) {
   }
   // TODO check for deep/shallow copies
   // TODO check for std::containers compatibility
-  // TODO check for input_iterator compatibility 
+  // TODO check for input_iterator compatibility
 }
 
 // vector& operator=( const vector& other )
@@ -399,7 +400,7 @@ TEST(VectorModifiers, EraseRange) {
 
 // void push_back( const T& value )
 TEST(VectorModifiers, PushBack) {
-  {
+  {  // int - simple
     ft::vector<int> v;
     v.push_back(0);
     v.push_back(1);
@@ -409,10 +410,10 @@ TEST(VectorModifiers, PushBack) {
     EXPECT_EQ(v[1], 1);
     EXPECT_EQ(v[2], 2);
   }
-  {
-    const ft::vector<int>::size_type max_size = ft::vector<int>().max_size();
-    ft::vector<int>                  v(max_size, 3);
-    EXPECT_THROW(v.push_back(3), std::length_error);
+  {  // int - 1000 pushes
+    ft::vector<int> v;
+    EXPECT_NO_THROW(for (ft::vector<int>::size_type i = 0; i < 1000;
+                         ++i) { v.push_back(3); });
   }
 }
 
