@@ -537,11 +537,10 @@ class vector {
   // Returns next 2^n larger than size
   size_type SmartSize(size_type size) {
     size_type smart_size = size == 0 ? 0 : 1;
-    while (smart_size < size && smart_size < (this->max_size() / 2)) {
+    while (smart_size < size && smart_size < (max_size() / 2)) {
       smart_size *= 2;
     }
-    if (smart_size < size) smart_size = this->max_size();
-    return smart_size;
+    return smart_size < size ? max_size() : smart_size;
   };
 
   // Reallocated the vectors array
