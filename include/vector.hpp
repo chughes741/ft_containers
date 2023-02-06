@@ -242,7 +242,6 @@ class vector {
 #pragma clang diagnostic ignored "-Wunused-local-typedef"
     typedef typename iterator_traits<InputIt>::iterator_category category;
 #pragma clang diagnostic pop
-
     first_ = alloc_.allocate(SmartSize(last - first));
     last_  = first_ + (last - first);
     end_   = first_ + SmartSize(last - first);
@@ -312,7 +311,7 @@ class vector {
 
   // Returns value of the element at [index], does not check range
   value_type& operator[](size_type position) {
-    return *(this->first_ + position);
+    return *(first_ + position);
   }
 
   // Returns value of the element at [index], does not check range
@@ -322,7 +321,7 @@ class vector {
 
   // Returns value of the first element in the array
   value_type& front() {
-    return *(this->first_);
+    return *(first_);
   }
 
   // Returns value of the first element in the array
@@ -342,12 +341,12 @@ class vector {
 
   // Returns a raw pointer to the start of the underlying array
   value_type* data() ft_noexcept {
-    return this->first_;
+    return first_;
   }
 
   // Returns a raw pointer to the start of the underlying array
   const value_type* data() const ft_noexcept {
-    return &(this->first_);
+    return &(first_);
   }
 
   // Returns a iterator to the start of the vector
@@ -392,12 +391,12 @@ class vector {
 
   // Returns true if there are no elements in use
   bool empty() const ft_noexcept {
-    return this->size() == 0 ? true : false;
+    return size() == 0 ? true : false;
   }
 
   // Returns the number of elements currently in use
   size_type size() const ft_noexcept {
-    return (this->last_ - this->first_);
+    return (last_ - first_);
   }
 
   // Returns the max allowable size of the array
@@ -407,7 +406,7 @@ class vector {
 
   // Increases the reserved capacity of the array
   void reserve(size_type new_cap) {
-    if (new_cap > this->size()) {
+    if (new_cap > size()) {
       Reallocate(new_cap);
     }
   }
@@ -426,16 +425,7 @@ class vector {
   // iterator insert(const_iterator pos, const value_type& value) {
   iterator insert(iterator pos, const value_type& value) {
     difference_type pos_ = pos - first_;
-    reserve(size() + 1);
-
-    pointer new_first_ = first_ + pos_;
-    pointer new_last_  = last_;
-
-    for (; new_last_ > new_first_; --new_last_) {
-      alloc_.construct(new_last_ + 1, *new_last_);
-      alloc_.destroy(new_last_);
-    }
-    alloc_.construct(new_first_, value);
+    insert(pos, 1, value);
     return iterator(first_ + pos_);
   }
 
@@ -541,12 +531,12 @@ class vector {
       smart_size *= 2;
     }
     return smart_size < size ? max_size() : smart_size;
-  };
+  }
 
   // Reallocated the vectors array
   void Reallocate(size_type size, size_type cap = 0,
                   value_type value = value_type()) {
-    if (size > max_size()) throw(std::length_error(""));
+    if (size > max_size() || cap > max_size()) throw(std::length_error(""));
 
     pointer new_first_ = alloc_.allocate(size, first_);
     pointer new_last_  = new_first_ + size;
