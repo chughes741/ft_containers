@@ -26,6 +26,21 @@ struct iterator_traits {
   typedef typename Iter::iterator_category iterator_category;
 };
 
+template <class value_type_, class size_type_, class difference_type_,
+          class pointer_, class const_pointer_, class reference_,
+          class const_reference_, class node_ptr_type_>
+struct tree_iterator_traits {
+ public:
+  typedef value_type_      value_type;
+  typedef size_type_       size_type;
+  typedef difference_type_ difference_type;
+  typedef pointer_         pointer;
+  typedef const_pointer_   const_pointer;
+  typedef reference_       reference;
+  typedef const_reference_ const_reference;
+  typedef node_ptr_type_   node_ptr_type;
+};
+
 template <class T>
 struct iterator_traits<T*> {
  public:
