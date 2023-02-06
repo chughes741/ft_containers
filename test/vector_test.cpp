@@ -55,6 +55,10 @@ TEST(VectorConstructors, SizeConstructor) {
     ft::vector<int> v(123456);
     EXPECT_GE(v.capacity(), 123456);
   }
+  {
+    const ft::vector<int>::size_type max_size = ft::vector<int>().max_size();
+    EXPECT_NO_THROW(ft::vector<int> v(max_size));
+  }
   {  // size only - too large
      // TODO check if std::vector throws
     const ft::vector<int>::size_type max_size = ft::vector<int>().max_size();
@@ -154,9 +158,9 @@ TEST(VectorGetAllocator, GetAllocator) {
 // reference at( size_type pos )
 TEST(VectorElementAccess, At) {
   {
-    ft::vector<int> v(10);
-    v[0] = 0;
-    v[1] = 1;
+    ft::vector<int> v;
+    v.push_back(0);
+    v.push_back(1);
 
     EXPECT_EQ(v.at(0), 0);
     EXPECT_EQ(v.at(1), 1);

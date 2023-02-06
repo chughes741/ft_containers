@@ -302,7 +302,7 @@ class vector {
   // Returns value of the element at(index), checks range
   value_type& at(size_type position) {
     RangeCheck(position);
-    return *(first_ + position);
+    return (*this)[position];
   }
 
   // Returns value of the element at(index), checks range
@@ -547,6 +547,8 @@ class vector {
   // Reallocated the vectors array
   void Reallocate(size_type size, size_type cap = 0,
                   value_type value = value_type()) {
+    if (size > max_size()) throw(std::length_error(""));
+
     pointer new_first_ = alloc_.allocate(size, first_);
     pointer new_last_  = new_first_ + size;
     pointer new_end_   = new_first_ + (cap > size ? cap : size);
@@ -576,7 +578,7 @@ class vector {
 
   // Checks if pos is iside the array, throws std::out_of_range
   void RangeCheck(size_type pos) {
-    if (pos > this->size()) {
+    if (pos >= size() || pos < 0) {
       std::string message = " pos (";
       message.append(std::to_string(pos));
       message.append(") >= this->size() (which is ");
