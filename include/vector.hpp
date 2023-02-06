@@ -132,12 +132,13 @@ class vector_iterator : public ft::vector_const_iterator<MyVector> {
   typedef typename MyVector::pointer         pointer;
   typedef value_type&                        reference;
 
-  vector_iterator(pointer ptr) : base_iterator(ptr){};
+  vector_iterator(pointer ptr) : base_iterator(ptr) {
+  }
 
-  value_type& operator*() const ft_noexcept {
+  reference operator*() const ft_noexcept {
     return const_cast<reference>(base_iterator::operator*());
   }
-  const pointer operator->() const ft_noexcept {
+  pointer operator->() const ft_noexcept {
     return this->ptr_;
   }
   vector_iterator& operator++() ft_noexcept {
@@ -153,7 +154,7 @@ class vector_iterator : public ft::vector_const_iterator<MyVector> {
     base_iterator::operator--();
     return *this;
   }
-  vector_iterator operator--(int) {
+  vector_iterator operator--(int) ft_noexcept {
     vector_iterator temp = *this;
     base_iterator:: operator--();
     return temp;
