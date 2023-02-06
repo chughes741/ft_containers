@@ -6,7 +6,7 @@
 #include <functional>  // std::binary_function, std::less
 #include <memory>      // std::allocator
 
-#include "rb_tree.hpp"  // ft::rb_tree
+#include "tree.hpp"  // ft::rb_tree
 #include "utility.hpp"  // ft::pair
 
 #define ft_noexcept throw()

@@ -15,7 +15,7 @@ add_library(
   include/algorithm.hpp
   include/iterator.hpp
   include/map.hpp
-  include/rb_tree.hpp
+  include/tree.hpp
   include/stack.hpp
   include/type_traits.hpp
   include/utility.hpp
@@ -66,15 +66,15 @@ add_test(
   COMMAND $<TARGET_FILE:map_test>
 )
 
-add_executable(rb_tree_test test/rb_tree_test.cpp)
+add_executable(tree_test test/tree_test.cpp)
 target_link_libraries(
-  rb_tree_test 
+  tree_test 
   PUBLIC ft_STL
   GTest::gtest_main
 )
 add_test(
-  NAME rb_tree_test
-  COMMAND $<TARGET_FILE:rb_tree_test>
+  NAME tree_test
+  COMMAND $<TARGET_FILE:tree_test>
 )
 
 add_executable(stack_test test/stack_test.cpp)
