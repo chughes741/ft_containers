@@ -234,6 +234,7 @@ class vector {
 
   // Range constructor
   template <class InputIt>
+  template <class InputIt>
   vector(InputIt                                                         first,
          typename enable_if<!is_integral<InputIt>::value, InputIt>::type last,
          const Allocator& alloc = Allocator())

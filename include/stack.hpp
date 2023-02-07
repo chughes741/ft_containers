@@ -3,11 +3,11 @@
 #ifndef STACK_HPP_
 #define STACK_HPP_
 
-#include "vector.hpp"
+#include <vector>
 
 namespace ft {
 
-template <class T, class Container = ft::vector<T>>
+template <class T, class Container = std::vector<T>>
 class stack {
  public:
   typedef Container                           container_type;
@@ -20,28 +20,26 @@ class stack {
   }
   stack(const stack& other) : c(other.c) {
   }
-  ~stack() {
-  }
   stack& operator=(const stack& other) {
     c = other.c;
   }
   reference top() {
-    return this->c.back();
+    return c.back();
   }
   const_reference top() const {
-    return this->c.back();
+    return c.back();
   }
   bool empty() const {
-    return this->c.empty();
+    return c.empty();
   }
   size_type size() const {
-    return this->c.size();
+    return c.size();
   }
-  void push(const value_type& value) {
-    this->c.push_back(value);
+  void push(const_reference value) {
+    c.push_back(value);
   }
   void pop() {
-    this->c.pop_back();
+    c.pop_back();
   }
 
  protected:
