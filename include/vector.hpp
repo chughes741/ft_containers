@@ -236,11 +236,11 @@ class vector {
          typename enable_if<!is_integral<InputIt>::value, InputIt>::type last,
          const Allocator& alloc = Allocator())
       : alloc_(alloc) {
-// Ignoring -Wunused-local-typedef to be able to use it for SFINAE
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-local-typedef"
     typedef typename iterator_traits<InputIt>::iterator_category category;
-#pragma clang diagnostic pop
+
+    category unused; // -Wunused-typedef
+    (void)unused;
+
     first_ = alloc_.allocate(SmartSize(last - first));
     last_  = first_ + (last - first);
     end_   = first_ + SmartSize(last - first);
