@@ -119,12 +119,18 @@ struct tree_node {
                             right_(NULL),
                             value_(NULL) {
   }
+  tree_node(const value_type& value) ft_noexcept : parent_(NULL),
+                                                   left_(NULL),
+                                                   right_(NULL),
+                                                   value_(value) {
+  }
 };
 
-template <class T, class Compare, class Allocator>
+template <class Key, class Compare = std::less<Key>,
+          class Allocator = std::allocator<Key>>
 class tree {
  public:
-  typedef T                                        value_type;
+  typedef Key                                      value_type;
   typedef Compare                                  value_compare;
   typedef Allocator                                allocator_type;
   typedef typename allocator_type::size_type       size_type;
@@ -133,20 +139,23 @@ class tree {
   typedef const value_type&                        const_reference;
   typedef typename allocator_type::pointer         pointer;
   typedef typename allocator_type::const_pointer   const_pointer;
-  typedef tree_iterator<value_type>                iterator;
-  typedef tree_const_iterator<value_type>          const_iterator;
+  typedef tree_iterator<tree<value_type>>          iterator;
+  typedef tree_const_iterator<tree<value_type>>    const_iterator;
+  typedef ft::reverse_iterator<iterator>           reverse_iterator;
+  typedef ft::reverse_iterator<const_iterator>     const_reverse_iterator;
+
+  typedef std::allocator<tree_node<Key>>   node_allocator;
+  typedef tree_node<Key>                   node_type;
+  typedef typename node_type::node_pointer node_pointer;
 
  private:
-  typedef std::allocator<tree_node<T>>        node_allocator;
-  typedef typename tree_node<T>::node_pointer node_pointer;
-
- public:
   allocator_type value_alloc_;
   node_allocator node_alloc_;
   value_compare  compare_;
   node_pointer   root_;
   size_type      size_;
 
+ public:
   // Default constructor
   tree()
       : value_alloc_(allocator_type()),
@@ -156,28 +165,99 @@ class tree {
         size_(0) {
   }
 
+  // Compare/Allocator constructor
+  explicit tree(const Compare& comp, const Allocator& alloc = Allocator())
+      : value_alloc_(alloc),
+        node_alloc_(node_allocator()),
+        compare_(comp),
+        root_(NULL),
+        size_(0) {
+  }
+
+  // Range constructor
+  // template <class InputIt>
+  // tree(InputIt first, InputIt last, const Compare& comp = Compare(),
+  //  const Allocator& alloc = Allocator()) {
+  // }
+
+  // Copy constructor
+  tree(const tree& other)
+      : value_alloc_(other.value_alloc_),
+        node_alloc_(other.node_alloc_),
+        compare_(other.compare_),
+        root_(NULL),
+        size_(0) {
+  }
+
+  // Copy assignment
+  tree& operator=(const tree& other) {
+    if (*this == other) return *this;
+    return *this;
+  }
+
   // Destructor
   ~tree() {
   }
 
-  // Inserts a new node into the tree
-  void insert(const value_type& value) {
-    node_pointer position = find_insert_position(value);
+  // At operator
+  reference operator[](const_reference key) {
+    return const_cast<reference>(key);
   }
 
-  // Returns parent node of value
-  node_pointer find_insert_position(const value_type& value) {
-    node_pointer node = root_;
-    while (node) {
-      // value < node->value
-      if (value_comp()(value, node->value)) {
-        if (node->left_ == NULL) return node;
-        node = node->left_;
-      } else {
-        if (node->right_ == NULL) return node;
-        node = node->right_;
-      }
-    }
+  // Returns iterator to the first element
+  iterator begin() ft_noexcept {
+    return iterator(root_);
+  }
+  const_iterator begin() const ft_noexcept {
+    return const_iterator(root_);
+  }
+
+  // Returns iterator to one past the last element
+  iterator end() ft_noexcept {
+    return iterator(root_);  // TODO not the root
+  }
+  const_iterator end() const ft_noexcept {
+    return const_iterator(root_);  // TODO not the root
+  }
+
+  // Returns a reverse iterator to last element
+  reverse_iterator rbegin() ft_noexcept {
+    return reverse_iterator(root_);  // TODO not the root
+  }
+  const_reverse_iterator rbegin() const ft_noexcept {
+    return const_reverse_iterator(root_);  // TODO not the root
+  }
+
+  // Returns a reverse iterator to the first element
+  reverse_iterator rend() ft_noexcept {
+    return reverse_iterator(root_);
+  }
+  const_reverse_iterator rend() const ft_noexcept {
+    return const_reverse_iterator(root_);
+  }
+
+  // True if tree is empty
+  bool empty() const ft_noexcept {
+    return size_ ? false : true;
+  }
+
+  // Returns number of elements in the tree
+  size_type size() const ft_noexcept {
+    return size_;
+  }
+
+  // Returns theorhetical maximum size of the tree
+  size_type max_size() const ft_noexcept {
+    return value_alloc_.max_size();
+  }
+
+  // Erases all elements in tree
+  void clear() ft_noexcept {
+  }
+
+  // Inserts a new node into the tree
+  void insert(const value_type& value) {
+    node_pointer position = FindInsertPosition(value);
   }
 
   //
@@ -188,6 +268,19 @@ class tree {
   //
   const value_compare& value_comp() const {
     return compare_;
+  }
+
+ private:
+  // Allocates a new node
+  node_pointer BuyNode(const_reference value) {
+    node_pointer new_node = new node_type(value);
+    return new_node;
+  }
+
+  // Returns parent node of value or NULL if it doesn't exist
+  node_pointer FindInsertPosition(const_reference value) {
+    (void)value;
+    return NULL;
   }
 };
 
