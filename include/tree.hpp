@@ -1,7 +1,5 @@
 
 #pragma once
-#ifndef RB_TREE_HPP_
-#define RB_TREE_HPP_
 
 #include <functional>  // std::less
 #include <memory>      // std::allocator
@@ -12,7 +10,6 @@
 
 #define ft_noexcept throw()
 
-using ft::pair;
 using std::bidirectional_iterator_tag;
 
 namespace ft {
@@ -195,5 +192,3 @@ class tree {
 };
 
 }  // namespace ft
-
-#endif  // RB_TREE_HPP_

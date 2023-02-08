@@ -1,7 +1,5 @@
 
 #pragma once
-#ifndef ALGORITHM_HPP_
-#define ALGORITHM_HPP_
 
 #define ft_noexcept throw()
 
@@ -58,5 +56,3 @@ bool lexicographical_compare(InputIter1 first1, InputIter1 last1,
 };
 
 }  // namespace ft
-
-#endif  // ALGORITHM_HPP_

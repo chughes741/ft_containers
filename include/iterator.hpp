@@ -1,7 +1,5 @@
 
 #pragma once
-#ifndef INTERATOR_HPP_
-#define INTERATOR_HPP_
 
 #include <iterator>  // iterator tags
 #include <memory>    // std::addressof
@@ -196,5 +194,3 @@ typename reverse_iterator<Iter1>::difference_type operator-(
 }
 
 }  // namespace ft
-
-#endif  // INTERATOR_HPP_

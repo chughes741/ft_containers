@@ -1,7 +1,5 @@
 
 #pragma once
-#ifndef STACK_HPP_
-#define STACK_HPP_
 
 #include <vector>
 
@@ -90,5 +88,3 @@ bool operator>=(const ft::stack<T1, Container1>& lhs,
 }
 
 }  // namespace ft
-
-#endif  // STACK_HPP_

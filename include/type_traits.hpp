@@ -1,7 +1,5 @@
 
 #pragma once
-#ifndef TYPE_TRAITS_HPP_
-#define TYPE_TRAITS_HPP_
 
 #define ft_noexcept throw()
 
@@ -79,5 +77,3 @@ struct enable_if<true, T> {
 };
 
 }  // namespace ft
-
-#endif  // TYPE_TRAITS_H

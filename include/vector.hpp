@@ -1,7 +1,5 @@
 
 #pragma once
-#ifndef VECTOR_HPP_
-#define VECTOR_HPP_
 
 #include <iterator>  // std::iterator
 #include <memory>    // std::uninitialized_fill
@@ -626,5 +624,3 @@ void swap(ft::vector<T, Alloc>& lhs, ft::vector<T, Alloc>& rhs) {
 }
 
 }  // namespace ft
-
-#endif  // VECTOR_HPP_
