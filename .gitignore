@@ -33,6 +33,7 @@ build/
 *.app
 
 # VS Code files
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
