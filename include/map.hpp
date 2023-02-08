@@ -194,48 +194,48 @@ class map {
   // }
 
   /* Friends */
-  friend bool operator==(const ft::map<Key, T, Compare, Allocator>& lhs,
-                         const ft::map<Key, T, Compare, Allocator>& rhs);
-
-  friend bool operator<(const ft::map<Key, T, Compare, Allocator>& lhs,
-                        const ft::map<Key, T, Compare, Allocator>& rhs);
+  // friend bool operator==(const ft::map<Key, T, Compare, Allocator>& lhs,
+                        //  const ft::map<Key, T, Compare, Allocator>& rhs);
+// 
+  // friend bool operator<(const ft::map<Key, T, Compare, Allocator>& lhs,
+                        // const ft::map<Key, T, Compare, Allocator>& rhs);
 };
 
-template <class Key, class T, class Compare, class Alloc>
-bool operator==(const ft::map<Key, T, Compare, Alloc>& lhs,
-                const ft::map<Key, T, Compare, Alloc>& rhs) {
-  return lhs.base_ == rhs.base_;
-}
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator!=(const ft::map<Key, T, Compare, Alloc>& lhs,
-                const ft::map<Key, T, Compare, Alloc>& rhs) {
-  return !(lhs == rhs);
-}
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator<(const ft::map<Key, T, Compare, Alloc>& lhs,
-               const ft::map<Key, T, Compare, Alloc>& rhs) {
-  return lhs.base_ < rhs.base_;
-}
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator>(const ft::map<Key, T, Compare, Alloc>& lhs,
-               const ft::map<Key, T, Compare, Alloc>& rhs) {
-  return rhs < lhs;
-}
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator<=(const ft::map<Key, T, Compare, Alloc>& lhs,
-                const ft::map<Key, T, Compare, Alloc>& rhs) {
-  return !(rhs < lhs);
-}
-
-template <class Key, class T, class Compare, class Alloc>
-bool operator>=(const ft::map<Key, T, Compare, Alloc>& lhs,
-                const ft::map<Key, T, Compare, Alloc>& rhs) {
-  return !(lhs < rhs);
-}
+// template <class Key, class T, class Compare, class Alloc>
+// bool operator==(const ft::map<Key, T, Compare, Alloc>& lhs,
+                // const ft::map<Key, T, Compare, Alloc>& rhs) {
+  // return lhs.base_ == rhs.base_;
+// }
+// 
+// template <class Key, class T, class Compare, class Alloc>
+// bool operator!=(const ft::map<Key, T, Compare, Alloc>& lhs,
+                // const ft::map<Key, T, Compare, Alloc>& rhs) {
+  // return !(lhs == rhs);
+// }
+// 
+// template <class Key, class T, class Compare, class Alloc>
+// bool operator<(const ft::map<Key, T, Compare, Alloc>& lhs,
+              //  const ft::map<Key, T, Compare, Alloc>& rhs) {
+  // return lhs.base_ < rhs.base_;
+// }
+// 
+// template <class Key, class T, class Compare, class Alloc>
+// bool operator>(const ft::map<Key, T, Compare, Alloc>& lhs,
+              //  const ft::map<Key, T, Compare, Alloc>& rhs) {
+  // return rhs < lhs;
+// }
+// 
+// template <class Key, class T, class Compare, class Alloc>
+// bool operator<=(const ft::map<Key, T, Compare, Alloc>& lhs,
+                // const ft::map<Key, T, Compare, Alloc>& rhs) {
+  // return !(rhs < lhs);
+// }
+// 
+// template <class Key, class T, class Compare, class Alloc>
+// bool operator>=(const ft::map<Key, T, Compare, Alloc>& lhs,
+                // const ft::map<Key, T, Compare, Alloc>& rhs) {
+  // return !(lhs < rhs);
+// }
 
 // template <class Key, class T, class Compare, class Alloc>
 // void swap(ft::map<Key, T, Compare, Alloc>& lhs,
