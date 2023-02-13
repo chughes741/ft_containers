@@ -66,7 +66,10 @@ struct remove_cv<const volatile T> {
 };
 
 template <class T>
-struct is_integral : is_integral_helper<typename remove_cv<T>::type> {};
+using remove_cv_t = typename remove_cv<T>::type;
+
+template <class T>
+struct is_integral : is_integral_helper<remove_cv_t<T>> {};
 
 template <bool B, class T = void>
 struct enable_if {};
@@ -75,5 +78,8 @@ template <class T>
 struct enable_if<true, T> {
   typedef T type;
 };
+
+template <bool B, class T>
+using enable_if_t = typename enable_if<B, T>::type;
 
 }  // namespace ft

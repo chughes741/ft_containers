@@ -232,13 +232,12 @@ class vector {
 
   // Range constructor
   template <class InputIt>
-  vector(InputIt                                                         first,
-         typename enable_if<!is_integral<InputIt>::value, InputIt>::type last,
+  vector(InputIt first, enable_if_t<!is_integral<InputIt>::value, InputIt> last,
          const Allocator& alloc = Allocator())
       : alloc_(alloc) {
     typedef typename iterator_traits<InputIt>::iterator_category category;
 
-    category unused; // -Wunused-typedef
+    category unused;  // -Wunused-typedef
     (void)unused;
 
     first_ = alloc_.allocate(SmartSize(last - first));
@@ -282,9 +281,8 @@ class vector {
 
   // Replaces the contents with copies of those in the range [first, last)
   template <class InputIt>
-  void assign(
-      InputIt                                                         first,
-      typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
+  void assign(InputIt                                            first,
+              enable_if_t<!is_integral<InputIt>::value, InputIt> last) {
     clear();
     Reallocate(last - first - 1, SmartSize(last - first - 1));
     for (size_type i = 0; i < static_cast<unsigned long>(last - first); ++i) {
@@ -451,9 +449,8 @@ class vector {
   // Inserts elements from range [first, last) before pos
   template <class InputIt>
   // iterator insert(const_iterator pos, InputIt first, InputIt last) {
-  iterator insert(
-      iterator pos, InputIt first,
-      typename enable_if<!is_integral<InputIt>::value, InputIt>::type last) {
+  iterator insert(iterator pos, InputIt first,
+                  enable_if_t<!is_integral<InputIt>::value, InputIt> last) {
     difference_type pos_ = pos - first_;
     reserve(size() + (last - first));
 
